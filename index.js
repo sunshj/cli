@@ -4,7 +4,8 @@ const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs-extra')
 const ora = require('ora')
-const { checkDirectoryNotExist, downloadGithubRepo, getVersion } = require('./lib')
+const { checkDirectoryNotExist, downloadGithubRepo } = require('./lib')
+const { version } = require('./package.json')
 
 const repos = new Map([
   ['typescript', 'sunshj/vue3-ts-starter'],
@@ -18,7 +19,7 @@ const repos = new Map([
 function getProjectName() {
   return new Promise(resolve => {
     const program = new Command()
-    program.name('vue3').description('CLI to create vue project').version(getVersion())
+    program.name('vue3').description('CLI to create vue project').version(version, '-v, --version')
     program
       .command('create')
       .description('create a new vue3-starter project')

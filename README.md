@@ -3,7 +3,7 @@
 ## 使用方法
 
 ```bash
-npm i @sunshj/cli -D
+npm i @sunshj/cli -g
 
 vue3 create vue3-starter
 ```
