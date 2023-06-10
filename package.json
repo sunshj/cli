@@ -1,6 +1,6 @@
 {
   "name": "@sunshj/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "用于快速创建vue3-starter",
   "bin": {
     "vue3": "bin/www"
@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.js create vue3-starter",
-    "publish": "npm publish --access=public"
+    "publish": "npm publish --access public"
   },
   "author": "sunshj",
   "contributors": [
@@ -27,7 +27,6 @@
     "ora": "^5.4.1"
   },
   "devDependencies": {
-    "@types/chalk": "^2.2.0",
     "@types/inquirer": "^8.2.6",
     "@types/node": "^20.2.6"
   }
