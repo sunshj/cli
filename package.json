@@ -1,13 +1,14 @@
 {
   "name": "@sunshj/cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "用于快速创建vue3-starter",
   "bin": {
-    "vue3": "bin/www"
+    "vue3": "bin/vue3",
+    "cnjs": "bin/node"
   },
-  "main": "index.js",
   "scripts": {
-    "test": "node index.js create vue3-starter",
+    "test:vue": "node src/vue3.js create vue3-starter",
+    "test:node": "node src/node.js create express-starter",
     "publish": "npm publish --access=public"
   },
   "author": "sunshj",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.6",
-    "@types/node": "^20.2.6"
+    "@types/node": "^20.2.6",
+    "eslint": "^8.42.0"
   }
 }
