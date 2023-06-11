@@ -67,8 +67,8 @@ function getProjectName(fn) {
 
 /**
  * 获取输入结果
- * @param {Array} prompt
- * @returns {Promise<string>}
+ * @param {inquirer.QuestionCollection<inquirer.Answers>} prompt
+ * @returns {Promise<any>}
  */
 function getPromptResult(prompt) {
   return inquirer.prompt(prompt)
@@ -90,12 +90,11 @@ async function create(projName, templateName) {
       console.log(
         chalk.yellow(`Now run the following commands:
     cd ${projName} 
-    npm install
-    npm run dev`)
+    npm install`)
       )
     })
     .catch(err => spinner.fail('Failed to download repository: ' + err.message.trim()))
     .finally(() => spinner.stop())
 }
 
-module.exports = { checkDirectoryNotExist, downloadGithubRepo, getProjectName, getPromptResult, create }
+module.exports = { checkDirectoryNotExist, getProjectName, getPromptResult, create }

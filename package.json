@@ -1,14 +1,12 @@
 {
   "name": "@sunshj/cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "用于快速创建vue3-starter",
   "bin": {
-    "vue3": "bin/vue3",
-    "cnjs": "bin/node"
+    "sun": "bin/node"
   },
   "scripts": {
-    "test:vue": "node src/vue3.js create vue3-starter",
-    "test:node": "node src/node.js create express-starter",
+    "test": "node src/index.js create my-app",
     "publish": "npm publish --access=public"
   },
   "author": "sunshj",
