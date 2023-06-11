@@ -5,11 +5,7 @@
 ```bash
 npm i @sunshj/cli -g
 
-# 创建vue3项目
-vue3 create vue3-starter
-
-# 创建express项目
-cnjs create express-starter
+sun create myapp
 ```
 
 ## 模板资源

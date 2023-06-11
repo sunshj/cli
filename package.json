@@ -1,6 +1,6 @@
 {
   "name": "@sunshj/cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "用于快速创建vue3-starter",
   "bin": {
     "sun": "bin/node"
