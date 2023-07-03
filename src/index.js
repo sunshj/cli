@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const { checkDirectoryNotExist, getProjectName, getPromptResult, create } = require('./lib')
+const { checkDirectoryNotExist, getProjectName, getPromptResult, create, filterRepoByFramework } = require('./lib')
 const { version } = require('../package.json')
 
 async function main() {
@@ -36,30 +36,12 @@ async function main() {
     ])
 
     const { template } = await getPromptResult([
-      framework === 'express.js'
-        ? {
-            name: 'template',
-            message: 'select your Express.js starter template',
-            type: 'list',
-            choices: [
-              {
-                name: 'express-starter',
-              },
-            ],
-          }
-        : {
-            name: 'template',
-            message: 'select your Vue.js starter template',
-            type: 'list',
-            choices: [
-              {
-                name: 'vue3-ts-starter',
-              },
-              {
-                name: 'vue3-starter',
-              },
-            ],
-          },
+      {
+        name: 'template',
+        message: `select your ${framework} starter template`,
+        type: 'list',
+        choices: filterRepoByFramework(framework),
+      },
     ])
 
     create(projName, template)

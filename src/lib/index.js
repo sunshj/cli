@@ -80,7 +80,7 @@ function getPromptResult(prompt) {
  * @param {string} templateName 模板名
  */
 async function create(projName, templateName) {
-  const repoPath = repos.get(templateName)
+  const repoPath = new Map(repos).get(templateName)
   await fs.mkdirp(path.join(process.cwd(), projName))
   const spinner = ora('Downloading repository...').start()
 
@@ -97,4 +97,10 @@ async function create(projName, templateName) {
     .finally(() => spinner.stop())
 }
 
-module.exports = { checkDirectoryNotExist, getProjectName, getPromptResult, create }
+function filterRepoByFramework(framework) {
+  return repos
+    .filter(([key]) => key.includes(framework.slice(0, framework.lastIndexOf('.'))))
+    .map(([key]) => ({ name: key }))
+}
+
+module.exports = { checkDirectoryNotExist, getProjectName, getPromptResult, create, filterRepoByFramework }
