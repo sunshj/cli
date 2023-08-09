@@ -14,6 +14,8 @@ sun create myapp
 
 [https://github.com/sunshj/vue3-ts-starter](https://github.com/sunshj/vue3-ts-starter)
 
+[https://github.com/sunshj/uniapp-ts-starter](https://github.com/sunshj/uniapp-ts-starter)
+
 [https://github.com/sunshj/express-starter](https://github.com/sunshj/express-starter)
 
 [https://github.com/sunshj/express-ts-starter](https://github.com/sunshj/express-ts-starter)
