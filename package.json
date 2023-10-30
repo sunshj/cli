@@ -1,6 +1,6 @@
 {
   "name": "@sunshj/cli",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "用于创建预设的starter",
   "bin": {
     "sun": "bin/node"
