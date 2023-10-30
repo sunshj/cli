@@ -1,6 +1,7 @@
 const chalk = require('chalk')
 const { checkDirectoryNotExist, getProjectName, getPromptResult, create, filterRepoByFramework } = require('./lib')
 const { version } = require('../package.json')
+const { Frameworks } = require('./lib/constant')
 
 async function main() {
   try {
@@ -24,14 +25,7 @@ async function main() {
         name: 'framework',
         message: 'select your framework to created',
         type: 'list',
-        choices: [
-          {
-            name: 'vue.js',
-          },
-          {
-            name: 'express.js',
-          },
-        ],
+        choices: Object.values(Frameworks).map(name => ({ name })),
       },
     ])
 

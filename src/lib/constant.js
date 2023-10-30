@@ -1,9 +1,40 @@
+const Frameworks = {
+  VueJS: 'vue.js',
+  ExpressJS: 'express.js',
+  NestJS: 'nest.js',
+}
+
 const repos = [
-  ['vue3 + ts', 'sunshj/vue3-ts-starter'],
-  ['vue3 + ts + uni-app', 'sunshj/uniapp-ts-starter'],
-  ['vue3', 'sunshj/vue3-starter'],
-  ['express + prisma', 'sunshj/express-starter'],
-  ['express + ts + prisma', 'sunshj/express-ts-starter'],
+  {
+    cate: Frameworks.VueJS,
+    name: 'vue3 + ts',
+    repo: 'sunshj/vue3-ts-starter',
+  },
+  {
+    cate: Frameworks.VueJS,
+    name: 'vue3 + ts + uni-app',
+    repo: 'sunshj/uniapp-ts-starter',
+  },
+  {
+    cate: Frameworks.VueJS,
+    name: 'vue3',
+    repo: 'sunshj/vue3-starter',
+  },
+  {
+    cate: Frameworks.ExpressJS,
+    name: 'express + prisma',
+    repo: 'sunshj/express-starter',
+  },
+  {
+    cate: Frameworks.ExpressJS,
+    name: 'express + ts + prisma',
+    repo: 'sunshj/express-ts-starter',
+  },
+  {
+    cate: Frameworks.NestJS,
+    name: 'nest + prisma',
+    repo: 'sunshj/nest-starter',
+  },
 ]
 
-module.exports = { repos }
+module.exports = { repos, Frameworks }

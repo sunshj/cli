@@ -25,16 +25,6 @@ function checkDirectoryNotExist(dirName) {
 }
 
 /**
- * 下载github仓库模板
- * @param {string} repoPath 仓库地址（user/repo）
- * @param {string} dirName 存放目录名
- */
-async function downloadGithubRepo(repoPath, dirName) {
-  await download(repoPath, dirName)
-  await updatePackageName(dirName)
-}
-
-/**
  * 修改package.json中的name字段
  * @param {string} projName 项目名
  */
@@ -80,27 +70,37 @@ function getPromptResult(prompt) {
  * @param {string} templateName 模板名
  */
 async function create(projName, templateName) {
-  const repoPath = new Map(repos).get(templateName)
+  const repoPath = repos.find(v => v.name === templateName).repo
   await fs.mkdirp(path.join(process.cwd(), projName))
   const spinner = ora('Downloading repository...').start()
 
-  downloadGithubRepo(repoPath, projName)
+  download(repoPath, projName)
     .then(() => {
       spinner.succeed('Repository downloaded successfully!')
+      return projName
+    })
+    .then(updatePackageName)
+    .then(() => {
       console.log(
         chalk.yellow(`Now run the following commands:
     cd ${projName} 
     npm install`)
       )
     })
-    .catch(err => spinner.fail('Failed to download repository: ' + err.message.trim()))
+    .catch(err => {
+      fs.removeSync(projName)
+      spinner.fail('Failed to download repository: ' + err.message.trim())
+    })
     .finally(() => spinner.stop())
 }
 
+/**
+ * @param {string} framework
+ */
 function filterRepoByFramework(framework) {
   return repos
-    .filter(([key]) => key.includes(framework.slice(0, framework.lastIndexOf('.'))))
-    .map(([key]) => ({ name: key }))
+    .filter(({ name }) => name.includes(framework.slice(0, framework.lastIndexOf('.'))))
+    .map(({ name }) => ({ name }))
 }
 
 module.exports = { checkDirectoryNotExist, getProjectName, getPromptResult, create, filterRepoByFramework }

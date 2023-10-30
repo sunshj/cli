@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "node src/index.js create my-app",
-    "publish": "npm publish --access=public"
+    "release": "npm publish --access=public"
   },
   "author": "sunshj",
   "contributors": [
