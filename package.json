@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "tsx src/index.ts create example-app",
-    "build": "tsup src --format=esm --clean",
+    "build": "tsup",
     "start": "node dist/index.js create example-app",
     "release": "bumpp && pnpm publish --access=public",
     "prepublishOnly": "pnpm build"
