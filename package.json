@@ -4,7 +4,7 @@
   "type": "module",
   "description": "用于创建预设的starter",
   "bin": {
-    "sun": "bin/cli"
+    "sun": "bin/cli.mjs"
   },
   "files": [
     "bin",
