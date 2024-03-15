@@ -1,16 +1,18 @@
 diff --git a/index.d.ts b/index.d.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..a358f8968bebe68c9cb6849ecdcbd3e1107d45f8
+index 0000000000000000000000000000000000000000..59b13f5fc84d52f51e42cca80aa98e3b3f0d758e
 --- /dev/null
 +++ b/index.d.ts
-@@ -0,0 +1,7 @@
+@@ -0,0 +1,9 @@
 +declare interface Options {
 +  clone?: boolean
 +  headers?: Record<string, string>
 +}
 +
-+export declare function download(repo: string, dest: string, options: Options): string
-+export declare function download(repo: string, dest: string, options: Options, cb: (err?: Error) => void): string
++declare function download(repo: string, dest: string, options: Options): string
++declare function download(repo: string, dest: string, options: Options, cb: (err?: Error) => void): string
++
++export default download
 diff --git a/package.json b/package.json
 index 2d7aea3f351ed0413e76b3768f82cb1a7dc2af3d..c591e5f75ebb338240e4ddd578bac3d401cac060 100644
 --- a/package.json

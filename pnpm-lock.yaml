@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   download-git-repo@3.0.2:
-    hash: g4ippfy4dpeo7gdh4mogp7ykje
+    hash: bz774rozf6xy3yitglc4dnk4i4
     path: patches/download-git-repo@3.0.2.patch
 
 dependencies:
@@ -18,7 +18,7 @@ dependencies:
     version: 5.3.0
   download-git-repo:
     specifier: ^3.0.2
-    version: 3.0.2(patch_hash=g4ippfy4dpeo7gdh4mogp7ykje)
+    version: 3.0.2(patch_hash=bz774rozf6xy3yitglc4dnk4i4)
   inquirer:
     specifier: ^9.2.15
     version: 9.2.15
@@ -1618,7 +1618,7 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /download-git-repo@3.0.2(patch_hash=g4ippfy4dpeo7gdh4mogp7ykje):
+  /download-git-repo@3.0.2(patch_hash=bz774rozf6xy3yitglc4dnk4i4):
     resolution: {integrity: sha512-N8hWXD4hXqmEcNoR8TBYFntaOcYvEQ7Bz90mgm3bZRTuteGQqwT32VDMnTyD0KTEvb8BWrMc1tVmzuV9u/WrAg==}
     dependencies:
       download: 7.1.0
