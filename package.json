@@ -39,5 +39,10 @@
     "inquirer": "^9.2.15",
     "ora": "^8.0.1"
   },
-  "prettier": "@sunshj/prettier-config"
+  "prettier": "@sunshj/prettier-config",
+  "pnpm": {
+    "patchedDependencies": {
+      "download-git-repo@3.0.2": "patches/download-git-repo@3.0.2.patch"
+    }
+  }
 }
