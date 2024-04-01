@@ -1,6 +1,9 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
 import { defineCommand, runMain } from 'citty'
-import { CLI_NAME, repos } from './constants'
+import consola from 'consola'
 import { version as pkgVersion } from '../package.json'
+import { CLI_NAME, repos } from './constants'
 import {
   checkDirectoryExists,
   downloadGithubRepo,
@@ -9,9 +12,6 @@ import {
   spinner,
   updatePkgName
 } from './utils'
-import consola from 'consola'
-import fs from 'fs/promises'
-import path from 'path'
 
 const createProjectCommand = defineCommand({
   meta: {
@@ -39,7 +39,11 @@ const createProjectCommand = defineCommand({
     const { framework } = await selectFramework()
     const { template } = await selectTemplate(framework)
 
-    const repoName = repos.find(repo => repo.name === template)?.repo!
+    const repoName = repos.find(repo => repo.name === template)?.repo
+    if (!repoName) {
+      consola.error(`Template ${template} not found.`)
+      return
+    }
     await fs.mkdir(path.join(process.cwd(), projectName), { recursive: true })
 
     spinner.start()
