@@ -6,9 +6,9 @@ import ora from 'ora'
 
 export const spinner = ora('[Downloading template]: ')
 
-export async function checkDirectoryExists(directoryPath: string) {
+export async function checkExists(p: string) {
   try {
-    await fs.access(directoryPath, fs.constants.F_OK)
+    await fs.access(p, fs.constants.F_OK)
     return true
   } catch {
     return false
@@ -24,7 +24,7 @@ export async function getPkgJSON(dir: string) {
 
 export async function getVSCodeSettings(dir: string) {
   const vscodeSettingsPath = path.resolve(dir, '.vscode/settings.json')
-  const vscodeSettingExist = await checkDirectoryExists(vscodeSettingsPath)
+  const vscodeSettingExist = await checkExists(vscodeSettingsPath)
   if (!vscodeSettingExist) {
     await fs.mkdir(path.dirname(vscodeSettingsPath), { recursive: true })
     await fs.writeFile(vscodeSettingsPath, JSON.stringify({}, null, 2))
@@ -90,4 +90,11 @@ export function downloadGithubRepo(repoName: string, dir: string) {
       reject(new Error('Exited'))
     })
   })
+}
+
+export async function getPackageManagement(dir: string) {
+  const hasPnpm = await checkExists(path.resolve(dir, 'pnpm-lock.yaml'))
+
+  if (hasPnpm) return 'pnpm'
+  return 'npm'
 }

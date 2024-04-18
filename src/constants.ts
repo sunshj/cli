@@ -28,3 +28,5 @@ export const repos = [
     repo: 'sunshj/nest-starter'
   }
 ]
+
+export const allowConfigs = ['eslint', 'prettier', 'stylelint']

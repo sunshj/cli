@@ -3,13 +3,7 @@ import path from 'node:path'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '../constants'
-import {
-  checkDirectoryExists,
-  deleteGitFolder,
-  downloadGithubRepo,
-  spinner,
-  updatePkgName
-} from '../utils'
+import { checkExists, deleteGitFolder, downloadGithubRepo, spinner, updatePkgName } from '../utils'
 import { selectFramework, selectTemplate } from './util'
 
 export const createProjectCommand = defineCommand({
@@ -29,7 +23,7 @@ export const createProjectCommand = defineCommand({
 
   async run({ args }) {
     const { projectName } = args
-    const isExisted = await checkDirectoryExists(path.resolve(process.cwd(), projectName))
+    const isExisted = await checkExists(path.resolve(process.cwd(), projectName))
     if (isExisted) {
       consola.error(`Directory ${projectName} is already exists.`)
       return

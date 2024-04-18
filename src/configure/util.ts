@@ -1,7 +1,9 @@
 import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
 import inquirer from 'inquirer'
-import { getPkgJSON, getVSCodeSettings, spinner } from '../utils'
+import consola from 'consola'
+import { getPackageManagement, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
+import { allowConfigs } from '../constants'
 
 export async function selectESLint() {
   return await inquirer.prompt<{ eslint: boolean }>([
@@ -42,16 +44,22 @@ export async function selectPackageManagement() {
       name: 'packageManagement',
       message: 'Which package management do you want to use?',
       type: 'list',
+      default: await getPackageManagement(process.cwd()),
       choices: ['npm', 'pnpm']
     }
   ])
 }
 
 export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
-  return Object.entries(pkgs).reduce<string[]>((acc, [k, v]) => {
+  const data = Object.entries(pkgs).reduce<string[]>((acc, [k, v]) => {
     if (v) acc.push(k)
     return acc
   }, [])
+
+  const invalidArgs = data.filter(v => !allowConfigs.includes(v))
+  if (invalidArgs.length > 0) consola.warn(`invalid args: ${invalidArgs.join(',')}`)
+
+  return data.filter(v => allowConfigs.includes(v))
 }
 
 export function handleConfigurePackage(configPkg: string, management: string) {
