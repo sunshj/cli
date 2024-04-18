@@ -1,19 +1,34 @@
 # @sunshj/cli
 
-## 使用方法
+## 安装
 
 ```bash
 npm i @sunshj/cli -g
 
-sun create myapp
+sun --version
 ```
 
-## 模板资源
+## 创建模版
 
-[https://github.com/sunshj/vue3-ts-starter](https://github.com/sunshj/vue3-ts-starter)
+```bash
+sun create my-app
+```
 
-[https://github.com/sunshj/uniapp-ts-starter](https://github.com/sunshj/uniapp-ts-starter)
+模板资源
 
-[https://github.com/sunshj/express-starter](https://github.com/sunshj/express-starter)
+> [https://github.com/sunshj/vue3-ts-starter](https://github.com/sunshj/vue3-ts-starter)
 
-[https://github.com/sunshj/nest-starter](https://github.com/sunshj/nest-starter)
+> [https://github.com/sunshj/uniapp-ts-starter](https://github.com/sunshj/uniapp-ts-starter)
+
+> [https://github.com/sunshj/express-starter](https://github.com/sunshj/express-starter)
+
+> [https://github.com/sunshj/nest-starter](https://github.com/sunshj/nest-starter)
+
+## 项目配置
+
+```bash
+sun config
+
+# or
+sun config --eslint --prettier --stylelint
+```
