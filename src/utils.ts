@@ -24,6 +24,11 @@ export async function getPkgJSON(dir: string) {
 
 export async function getVSCodeSettings(dir: string) {
   const vscodeSettingsPath = path.resolve(dir, '.vscode/settings.json')
+  const vscodeSettingExist = await checkDirectoryExists(vscodeSettingsPath)
+  if (!vscodeSettingExist) {
+    await fs.mkdir(path.dirname(vscodeSettingsPath), { recursive: true })
+    await fs.writeFile(vscodeSettingsPath, JSON.stringify({}, null, 2))
+  }
   const vscodeSettingsStr = await fs.readFile(vscodeSettingsPath, 'utf-8')
   const vscodeSettings = JSON.parse(vscodeSettingsStr)
   return { vscodeSettings, vscodeSettingsPath }

@@ -55,8 +55,8 @@ export const configureProjectCommand = defineCommand({
     consola.success('Selected configs:', colors.blueBright(configurePkgs.join(', ')))
     const { packageManagement } = await selectPackageManagement()
 
-    await Promise.allSettled(
-      configurePkgs.map(pkg => handleConfigurePackage(pkg, packageManagement))
-    )
+    for (const pkg of configurePkgs) {
+      await handleConfigurePackage(pkg, packageManagement)
+    }
   }
 })

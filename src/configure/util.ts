@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
+import path from 'node:path'
 import inquirer from 'inquirer'
-import { getPkgJSON, getVSCodeSettings, spinner } from '../utils'
+import { checkDirectoryExists, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
 
 export async function selectESLint() {
   return await inquirer.prompt<{ eslint: boolean }>([
@@ -54,34 +55,40 @@ export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
   }, [])
 }
 
-export function handleConfigurePackage(configPkg: string, management: string) {
-  spinner.start(`Installing ${configPkg}...`)
-  const install = spawn(management, ['install', configPkg, `@sunshj/${configPkg}-config`, '-D'], {
-    stdio: 'inherit',
-    shell: true
-  })
+export function handleConfigurePackage(configPkg: string, management: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    spinner.start(`Installing ${configPkg}...`)
+    const install = spawn(management, ['install', configPkg, `@sunshj/${configPkg}-config`, '-D'], {
+      stdio: 'inherit',
+      shell: true
+    })
 
-  install.on('close', code => {
-    if (code === 0) {
-      spinner.succeed(`${configPkg} installed successfully`)
-      if (configPkg === 'eslint') {
-        configureESLint()
+    install.on('close', code => {
+      if (code === 0) {
+        spinner.succeed(`${configPkg} installed successfully`)
+        if (configPkg === 'eslint') {
+          configureESLint()
+        }
+        if (configPkg === 'prettier') {
+          configurePrettier()
+        }
+        if (configPkg === 'stylelint') {
+          configureStyleLint()
+        }
+        resolve()
+      } else {
+        spinner.fail(`${configPkg} installation failed`)
+        reject(new Error(`${configPkg} installation failed with code ${code}`))
       }
-      if (configPkg === 'prettier') {
-        configurePrettier()
-      }
-      if (configPkg === 'stylelint') {
-        configureStyleLint()
-      }
-    } else {
-      spinner.fail(`${configPkg} installation failed`)
-    }
+    })
   })
 }
 
 async function configureESLint() {
-  const { vscodeSettings } = await getVSCodeSettings(process.cwd())
-  console.log('vscodeSettings:', vscodeSettings)
+  const { vscodeSettings, vscodeSettingsPath } = await getVSCodeSettings(process.cwd())
+  vscodeSettings['eslint.experimental.useFlatConfig'] = true
+  await fs.writeFile(vscodeSettingsPath, JSON.stringify(vscodeSettings, null, 2))
+
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
   const pkgType = pkgJSON.type ?? 'commonjs'
   if (pkgType === 'module') {
@@ -89,7 +96,7 @@ async function configureESLint() {
       'eslint.config.js',
       `import { defineConfig } from '@sunshj/eslint-config'
   
-  export default defineConfig({})
+export default defineConfig({})
   `,
       'utf-8'
     )
@@ -98,7 +105,7 @@ async function configureESLint() {
       'eslint.config.js',
       `const { defineConfig } = require('@sunshj/eslint-config')
   
-  module.exports = defineConfig({})
+module.exports = defineConfig({})
   `,
       'utf-8'
     )
@@ -116,10 +123,11 @@ async function configurePrettier() {
 }
 
 async function configureStyleLint() {
-  const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
   const { vscodeSettings, vscodeSettingsPath } = await getVSCodeSettings(process.cwd())
   vscodeSettings['stylelint.validate'] = ['css', 'postcss', 'scss', 'vue']
+  await fs.writeFile(vscodeSettingsPath, JSON.stringify(vscodeSettings, null, 2))
 
+  const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
   pkgJSON.stylelint = {
     extends: '@sunshj/stylelint-config'
   }
@@ -127,5 +135,4 @@ async function configureStyleLint() {
     'stylelint --cache --fix "src/**/*.{vue,css,scss}" --cache --cache-location node_modules/.cache/stylelint/'
 
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
-  await fs.writeFile(vscodeSettingsPath, JSON.stringify(vscodeSettings, null, 2))
 }
