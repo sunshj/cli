@@ -1,8 +1,7 @@
 import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
-import path from 'node:path'
 import inquirer from 'inquirer'
-import { checkDirectoryExists, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
+import { getPkgJSON, getVSCodeSettings, spinner } from '../utils'
 
 export async function selectESLint() {
   return await inquirer.prompt<{ eslint: boolean }>([
