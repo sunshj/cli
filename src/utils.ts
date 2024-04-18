@@ -36,7 +36,7 @@ export async function getVSCodeSettings(dir: string) {
 
 export async function updatePkgName(projName: string) {
   try {
-    const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
+    const { pkgJSON, pkgJsonPath } = await getPkgJSON(path.resolve(process.cwd(), projName))
     pkgJSON.name = projName
     await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
   } catch (error: any) {
