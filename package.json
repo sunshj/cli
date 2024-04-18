@@ -14,9 +14,11 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "tsx src/index.ts create example-app",
+    "dev:create": "tsx src/index.ts create example-app",
+    "dev:config": "tsx src/index.ts config",
     "build": "tsup",
-    "start": "node dist/index.js create example-app",
+    "start:create": "node dist/index.js create example-app",
+    "start:config": "node dist/index.js config",
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm build"
   },

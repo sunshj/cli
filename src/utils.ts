@@ -1,9 +1,7 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { spawn } from 'node:child_process'
 import consola from 'consola'
-import fs from 'fs/promises'
-import path from 'path'
-import { Frameworks, repos } from './constants'
-import inquirer from 'inquirer'
-import { spawn } from 'child_process'
 import ora from 'ora'
 
 export const spinner = ora('[Downloading template]: ')
@@ -17,40 +15,28 @@ export async function checkDirectoryExists(directoryPath: string) {
   }
 }
 
+export async function getPkgJSON(dir: string) {
+  const pkgJsonPath = path.resolve(dir, 'package.json')
+  const pkgJsonStr = await fs.readFile(pkgJsonPath, 'utf-8')
+  const pkgJSON = JSON.parse(pkgJsonStr)
+  return { pkgJSON, pkgJsonPath }
+}
+
+export async function getVSCodeSettings(dir: string) {
+  const vscodeSettingsPath = path.resolve(dir, '.vscode/settings.json')
+  const vscodeSettingsStr = await fs.readFile(vscodeSettingsPath, 'utf-8')
+  const vscodeSettings = JSON.parse(vscodeSettingsStr)
+  return { vscodeSettings, vscodeSettingsPath }
+}
+
 export async function updatePkgName(projName: string) {
   try {
-    const pkgJsonPath = path.resolve(process.cwd(), projName, 'package.json')
-    const pkgJsonStr = await fs.readFile(pkgJsonPath, 'utf-8')
-    const pkgJson = JSON.parse(pkgJsonStr)
-    pkgJson.name = projName
-    await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJson, null, 2))
+    const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
+    pkgJSON.name = projName
+    await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
   } catch (error: any) {
     consola.error(`Failed to update 'name' field in package.json: ${error.message}`)
   }
-}
-
-export async function selectFramework() {
-  return await inquirer.prompt<{ framework: string }>([
-    {
-      name: 'framework',
-      message: 'Which framework do you want to use?',
-      type: 'list',
-      choices: Object.values(Frameworks).map(name => ({ name }))
-    }
-  ])
-}
-
-export async function selectTemplate(framework: string) {
-  return await inquirer.prompt<{ template: string }>([
-    {
-      name: 'template',
-      message: `Which ${framework} template do you want to use?`,
-      type: 'list',
-      choices: repos
-        .filter(({ name }) => name.includes(framework.slice(0, framework.lastIndexOf('.'))))
-        .map(({ name }) => ({ name }))
-    }
-  ])
 }
 
 export function downloadGithubRepo(repoName: string, dir: string) {
