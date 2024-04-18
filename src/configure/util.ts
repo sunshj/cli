@@ -55,7 +55,7 @@ export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
   }, [])
 }
 
-export function handleConfigurePackage(configPkg: string, management: string): Promise<void> {
+export function handleConfigurePackage(configPkg: string, management: string) {
   return new Promise((resolve, reject) => {
     spinner.start(`Installing ${configPkg}...`)
     const install = spawn(management, ['install', configPkg, `@sunshj/${configPkg}-config`, '-D'], {
@@ -63,19 +63,13 @@ export function handleConfigurePackage(configPkg: string, management: string): P
       shell: true
     })
 
-    install.on('close', code => {
+    install.on('close', async code => {
       if (code === 0) {
         spinner.succeed(`${configPkg} installed successfully`)
-        if (configPkg === 'eslint') {
-          configureESLint()
-        }
-        if (configPkg === 'prettier') {
-          configurePrettier()
-        }
-        if (configPkg === 'stylelint') {
-          configureStyleLint()
-        }
-        resolve()
+        if (configPkg === 'eslint') await configureESLint()
+        if (configPkg === 'prettier') await configurePrettier()
+        if (configPkg === 'stylelint') await configureStyleLint()
+        resolve(true)
       } else {
         spinner.fail(`${configPkg} installation failed`)
         reject(new Error(`${configPkg} installation failed with code ${code}`))

@@ -44,6 +44,15 @@ export async function updatePkgName(projName: string) {
   }
 }
 
+export async function deleteGitFolder(projName: string) {
+  const gitFolderPath = path.resolve(process.cwd(), projName, '.git')
+  try {
+    await fs.rm(gitFolderPath, { recursive: true })
+  } catch (error: any) {
+    consola.error(`Failed to delete .git folder: ${error.message}`)
+  }
+}
+
 export function downloadGithubRepo(repoName: string, dir: string) {
   const gitClone = spawn('git', ['clone', `https://github.com/${repoName}.git`, dir], {
     stdio: 'inherit'

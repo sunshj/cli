@@ -3,7 +3,13 @@ import path from 'node:path'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '../constants'
-import { checkDirectoryExists, downloadGithubRepo, spinner, updatePkgName } from '../utils'
+import {
+  checkDirectoryExists,
+  deleteGitFolder,
+  downloadGithubRepo,
+  spinner,
+  updatePkgName
+} from '../utils'
 import { selectFramework, selectTemplate } from './util'
 
 export const createProjectCommand = defineCommand({
@@ -53,6 +59,7 @@ export const createProjectCommand = defineCommand({
     if (isDownloaded) {
       spinner.succeed('Download template successfully.')
       await updatePkgName(projectName)
+      await deleteGitFolder(projectName)
       consola.success(`Now run the following commands:
       cd ${projectName} 
       npm install`)
