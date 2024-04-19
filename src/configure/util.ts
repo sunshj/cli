@@ -51,10 +51,7 @@ export async function selectPackageManagement() {
 }
 
 export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
-  const data = Object.entries(pkgs).reduce<string[]>((acc, [k, v]) => {
-    if (v) acc.push(k)
-    return acc
-  }, [])
+  const data = Object.keys(pkgs).filter(pkg => pkgs[pkg])
 
   const invalidArgs = data.filter(v => !allowConfigs.includes(v))
   if (invalidArgs.length > 0) consola.warn(`invalid args: ${invalidArgs.join(',')}`)
