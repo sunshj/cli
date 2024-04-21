@@ -1,8 +1,8 @@
 {
-  "name": "@sunshj/cli",
-  "version": "1.2.3",
+  "name": "sunshj",
+  "version": "1.0.0",
   "type": "module",
-  "description": "用于创建预设的starter",
+  "description": "供创建个人预设starter、配置项目使用",
   "bin": {
     "sun": "bin/cli.mjs"
   },

@@ -1,9 +1,7 @@
-# @sunshj/cli
-
 ## 安装
 
 ```bash
-npm i @sunshj/cli -g
+npm i sunshj -g
 
 sun --version
 ```
