@@ -117,6 +117,7 @@ module.exports = defineConfig({})
     )
   }
 
+  if (!pkgJSON.scripts) pkgJSON.scripts = {}
   pkgJSON.scripts.lint = 'eslint .'
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 }
@@ -124,6 +125,7 @@ module.exports = defineConfig({})
 async function configurePrettier() {
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
   pkgJSON.prettier = '@sunshj/prettier-config'
+  if (!pkgJSON.scripts) pkgJSON.scripts = {}
   pkgJSON.scripts.format = 'prettier --write .'
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 }
@@ -137,6 +139,7 @@ async function configureStyleLint() {
   pkgJSON.stylelint = {
     extends: '@sunshj/stylelint-config'
   }
+  if (!pkgJSON.scripts) pkgJSON.scripts = {}
   pkgJSON.scripts.stylelint =
     'stylelint --cache --fix "src/**/*.{vue,css,scss}" --cache --cache-location node_modules/.cache/stylelint/'
 
