@@ -29,4 +29,5 @@ export const repos = [
   }
 ]
 
-export const allowConfigs = ['eslint', 'prettier', 'stylelint']
+export const ALLOW_CONFIGS = ['eslint', 'prettier', 'stylelint']
+export const ALLOW_ARGS = [...ALLOW_CONFIGS, 'workspace', 'w']

@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process'
 import inquirer from 'inquirer'
 import consola from 'consola'
 import { getPackageManagement, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
-import { allowConfigs } from '../constants'
+import { ALLOW_ARGS, ALLOW_CONFIGS } from '../constants'
 
 export async function selectESLint() {
   return await inquirer.prompt<{ eslint: boolean }>([
@@ -53,19 +53,27 @@ export async function selectPackageManagement() {
 export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
   const data = Object.keys(pkgs).filter(pkg => pkgs[pkg])
 
-  const invalidArgs = data.filter(v => !allowConfigs.includes(v))
+  const invalidArgs = data.filter(v => !ALLOW_ARGS.includes(v))
   if (invalidArgs.length > 0) consola.warn(`invalid args: ${invalidArgs.join(',')}`)
 
-  return data.filter(v => allowConfigs.includes(v))
+  return data.filter(v => ALLOW_CONFIGS.includes(v))
 }
 
-export function handleConfigurePackage(configPkg: string, management: string) {
+export function handleConfigurePackage(
+  configPkg: string,
+  management: string,
+  isWorkspace: boolean
+) {
   return new Promise((resolve, reject) => {
     spinner.start(`Installing ${configPkg}...`)
-    const install = spawn(management, ['install', configPkg, `@sunshj/${configPkg}-config`, '-D'], {
-      stdio: 'inherit',
-      shell: true
-    })
+    const install = spawn(
+      management,
+      ['install', configPkg, `@sunshj/${configPkg}-config`, '-D', isWorkspace ? '-w' : ''],
+      {
+        stdio: 'inherit',
+        shell: true
+      }
+    )
 
     install.on('close', async code => {
       if (code === 0) {

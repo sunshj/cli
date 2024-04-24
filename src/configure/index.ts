@@ -30,14 +30,20 @@ export const configureProjectCommand = defineCommand({
       type: 'boolean',
       description: 'add stylelint, @sunshj/stylelint-config, works with vue3',
       default: false
+    },
+    workspace: {
+      type: 'boolean',
+      alias: 'w',
+      description: 'is pnpm workspace project',
+      default: false
     }
   },
 
   async run(ctx) {
-    const { _, ...args } = ctx.args
+    const { _, workspace, ...args } = ctx.args
     const configurePkgs = []
     const configurePkgsFromArgs = transformConfigurePkgs(args as Record<string, boolean>)
-
+    console.log('configurePkgsFromArgs:', configurePkgsFromArgs)
     if (configurePkgsFromArgs.length > 0) {
       configurePkgs.push(...configurePkgsFromArgs)
     } else {
@@ -53,10 +59,11 @@ export const configureProjectCommand = defineCommand({
     }
 
     consola.success('Selected configs:', colors.blueBright(configurePkgs.join(', ')))
+    consola.info('Monorepo project:', colors.blueBright(workspace.toString()))
     const { packageManagement } = await selectPackageManagement()
 
     for (const pkg of configurePkgs) {
-      await handleConfigurePackage(pkg, packageManagement)
+      await handleConfigurePackage(pkg, packageManagement, workspace)
     }
   }
 })
