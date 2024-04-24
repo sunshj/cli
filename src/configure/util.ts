@@ -66,9 +66,10 @@ export function handleConfigurePackage(
 ) {
   return new Promise((resolve, reject) => {
     spinner.start(`Installing ${configPkg}...`)
+    const installPkg = configPkg === 'eslint' ? 'eslint@8' : configPkg
     const install = spawn(
       management,
-      ['install', configPkg, `@sunshj/${configPkg}-config`, '-D', isWorkspace ? '-w' : ''],
+      ['install', installPkg, `@sunshj/${configPkg}-config`, '-D', isWorkspace ? '-w' : ''],
       {
         stdio: 'inherit',
         shell: true

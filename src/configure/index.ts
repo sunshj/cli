@@ -43,7 +43,7 @@ export const configureProjectCommand = defineCommand({
     const { _, workspace, ...args } = ctx.args
     const configurePkgs = []
     const configurePkgsFromArgs = transformConfigurePkgs(args as Record<string, boolean>)
-    console.log('configurePkgsFromArgs:', configurePkgsFromArgs)
+
     if (configurePkgsFromArgs.length > 0) {
       configurePkgs.push(...configurePkgsFromArgs)
     } else {
