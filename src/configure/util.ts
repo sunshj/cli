@@ -2,8 +2,8 @@ import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
 import inquirer from 'inquirer'
 import consola from 'consola'
-import { getPackageManagement, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
-import { ALLOW_ARGS, ALLOW_CONFIGS } from '../constants'
+import { execShell, getPackageManagement, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
+import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '../constants'
 
 export async function selectESLint() {
   return await inquirer.prompt<{ eslint: boolean }>([
@@ -38,6 +38,17 @@ export async function selectStyleLint() {
   ])
 }
 
+export async function selectLintStaged() {
+  return await inquirer.prompt<{ lintStaged: boolean }>([
+    {
+      name: 'lintStaged',
+      message: 'Do you want to use lint-staged?',
+      type: 'confirm',
+      default: true
+    }
+  ])
+}
+
 export async function selectPackageManagement() {
   return await inquirer.prompt<{ packageManagement: string }>([
     {
@@ -59,36 +70,27 @@ export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
   return data.filter(v => ALLOW_CONFIGS.includes(v))
 }
 
-export function handleConfigurePackage(
+export async function handleConfigurePackage(
   configPkg: string,
   management: string,
   isWorkspace: boolean
 ) {
-  return new Promise((resolve, reject) => {
-    spinner.start(`Installing ${configPkg}...`)
-    const installPkg = configPkg === 'eslint' ? 'eslint@8' : configPkg
-    const install = spawn(
-      management,
-      ['install', installPkg, `@sunshj/${configPkg}-config`, '-D', isWorkspace ? '-w' : ''],
-      {
-        stdio: 'inherit',
-        shell: true
-      }
-    )
+  spinner.start(`Installing ${configPkg}...\n`)
+  const installPkgs = CONFIG_INSTALL_MAP.get(configPkg)!
 
-    install.on('close', async code => {
-      if (code === 0) {
-        spinner.succeed(`${configPkg} installed successfully`)
-        if (configPkg === 'eslint') await configureESLint()
-        if (configPkg === 'prettier') await configurePrettier()
-        if (configPkg === 'stylelint') await configureStyleLint()
-        resolve(true)
-      } else {
-        spinner.fail(`${configPkg} installation failed`)
-        reject(new Error(`${configPkg} installation failed with code ${code}`))
-      }
-    })
-  })
+  const install = await execShell(management, [
+    'install',
+    ...installPkgs,
+    '-D',
+    isWorkspace ? '-w' : ''
+  ])
+
+  if (!install) return spinner.fail(`${configPkg} installation failed`)
+  spinner.succeed(`${configPkg} installed successfully`)
+  if (configPkg === 'eslint') await configureESLint()
+  if (configPkg === 'prettier') await configurePrettier()
+  if (configPkg === 'stylelint') await configureStyleLint()
+  if (configPkg === 'lintStaged') await configureLintStaged()
 }
 
 async function configureESLint() {
@@ -145,4 +147,23 @@ async function configureStyleLint() {
     'stylelint --cache --fix "src/**/*.{vue,css,scss}" --cache --cache-location node_modules/.cache/stylelint/'
 
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
+}
+
+async function configureLintStaged() {
+  const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
+  pkgJSON['lint-staged'] = {
+    'src/**/*.{vue,js,ts,jsx,tsx}': ['eslint --fix', 'prettier --write']
+  }
+  if (!pkgJSON.scripts) pkgJSON.scripts = {}
+  pkgJSON.scripts.prepare = 'husky install'
+  await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
+
+  const management = await getPackageManagement(process.cwd())
+  const prepare = await execShell(management, ['run', 'prepare'])
+  if (!prepare) return consola.error('lint-staged configuration failed')
+  consola.success('lint-staged configured successfully')
+
+  const husky = await execShell('npx', ['husky', 'set', '.husky/pre-commit', `"npx lint-staged"`])
+  if (!husky) return consola.error('pre-commit hook configuration failed')
+  consola.success('pre-commit hook configured successfully')
 }

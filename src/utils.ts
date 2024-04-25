@@ -98,3 +98,19 @@ export async function getPackageManagement(dir: string) {
   if (hasPnpm) return 'pnpm'
   return 'npm'
 }
+
+export function execShell(command: string, args: string[]) {
+  const cmd = spawn(command, args, { stdio: 'inherit', shell: true })
+
+  return new Promise<boolean>((resolve, reject) => {
+    cmd.on('close', code => {
+      if (code === 0) {
+        resolve(true)
+      }
+    })
+
+    cmd.on('error', err => {
+      reject(new Error(`Oops: ${err.message}`))
+    })
+  })
+}

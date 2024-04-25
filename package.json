@@ -20,7 +20,10 @@
     "start:create": "node dist/index.js create example-app",
     "start:config": "node dist/index.js config",
     "release": "bumpp && pnpm publish",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "prepare": "husky install",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "author": "sunshj",
   "license": "ISC",
@@ -32,6 +35,8 @@
     "@types/node": "^20.12.2",
     "bumpp": "^9.4.0",
     "eslint": "^8.57.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "tsup": "^8.0.2",
     "tsx": "^4.7.1",
@@ -43,5 +48,11 @@
     "consola": "^3.2.3",
     "inquirer": "^9.2.17",
     "ora": "^8.0.1"
+  },
+  "lint-staged": {
+    "**/*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }

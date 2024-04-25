@@ -4,6 +4,7 @@ import { colors } from 'consola/utils'
 import {
   handleConfigurePackage,
   selectESLint,
+  selectLintStaged,
   selectPackageManagement,
   selectPrettier,
   selectStyleLint,
@@ -31,6 +32,11 @@ export const configureProjectCommand = defineCommand({
       description: 'add stylelint, @sunshj/stylelint-config, works with vue3',
       default: false
     },
+    lintStaged: {
+      type: 'boolean',
+      description: 'add husky, lint-staged, pre-commit hook',
+      default: false
+    },
     workspace: {
       type: 'boolean',
       alias: 'w',
@@ -50,8 +56,9 @@ export const configureProjectCommand = defineCommand({
       const { eslint } = await selectESLint()
       const { prettier } = await selectPrettier()
       const { stylelint } = await selectStyleLint()
+      const { lintStaged } = await selectLintStaged()
 
-      configurePkgs.push(...transformConfigurePkgs({ eslint, prettier, stylelint }))
+      configurePkgs.push(...transformConfigurePkgs({ eslint, prettier, stylelint, lintStaged }))
       if (configurePkgs.length === 0) {
         consola.error('No packages selected. Exiting...')
         return
