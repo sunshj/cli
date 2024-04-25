@@ -162,7 +162,12 @@ async function configureLintStaged() {
   if (!prepare) return consola.error('lint-staged configuration failed')
   consola.success('lint-staged configured successfully')
 
-  const husky = await execShell('npx', ['husky', 'set', '.husky/pre-commit', `"npx lint-staged"`])
+  const husky = await execShell('npx', [
+    'husky',
+    'set',
+    '.husky/pre-commit',
+    `"npx lint-staged --verbose --no-stash"`
+  ])
   if (!husky) return consola.error('pre-commit hook configuration failed')
   consola.success('pre-commit hook configured successfully')
 }
