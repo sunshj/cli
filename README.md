@@ -28,5 +28,5 @@ sun create my-app
 sun config
 
 # or
-sun config --eslint --prettier --stylelint
+sun config --eslint --prettier --stylelint --lintStaged -w
 ```

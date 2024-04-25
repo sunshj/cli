@@ -1,5 +1,4 @@
 import fs from 'node:fs/promises'
-import { spawn } from 'node:child_process'
 import inquirer from 'inquirer'
 import consola from 'consola'
 import { execShell, getPackageManagement, getPkgJSON, getVSCodeSettings, spinner } from '../utils'

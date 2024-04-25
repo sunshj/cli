@@ -14,7 +14,7 @@ import {
 export const configureProjectCommand = defineCommand({
   meta: {
     name: 'config',
-    description: 'Configure the project, add eslint/prettier/stylelint'
+    description: 'Configure the project, add eslint/prettier/stylelint/lint-staged etc.'
   },
   args: {
     eslint: {
