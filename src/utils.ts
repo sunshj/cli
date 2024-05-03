@@ -54,42 +54,7 @@ export async function deleteGitFolder(projName: string) {
 }
 
 export function downloadGithubRepo(repoName: string, dir: string) {
-  const gitClone = spawn('git', ['clone', `https://github.com/${repoName}.git`, dir], {
-    stdio: 'inherit'
-  })
-
-  return new Promise((resolve, reject) => {
-    gitClone.on('close', code => {
-      if (code === 0) {
-        resolve(true)
-      }
-    })
-
-    gitClone.on('error', err => {
-      reject(new Error(`Oops: ${err.message}`))
-    })
-
-    gitClone.on('exit', code => {
-      if (code !== 0) {
-        reject(new Error(`git clone exited with code ${code}`))
-      }
-    })
-
-    process.on('SIGINT', () => {
-      gitClone.kill()
-      reject(new Error('Interrupted'))
-    })
-
-    process.on('SIGTERM', () => {
-      reject(new Error('Terminated'))
-    })
-
-    process.on('exit', () => {
-      gitClone.kill()
-      spinner.stop()
-      reject(new Error('Exited'))
-    })
-  })
+  return execShell('git', ['clone', `https://github.com/${repoName}.git`, dir])
 }
 
 export async function getPackageManagement(dir: string) {
@@ -111,6 +76,26 @@ export function execShell(command: string, args: string[]) {
 
     cmd.on('error', err => {
       reject(new Error(`Oops: ${err.message}`))
+    })
+
+    cmd.on('exit', code => {
+      if (code !== 0) {
+        reject(new Error(`${command} exited with code ${code}`))
+      }
+    })
+
+    process.on('SIGINT', () => {
+      cmd.kill()
+      reject(new Error('Interrupted'))
+    })
+
+    process.on('SIGTERM', () => {
+      reject(new Error('Terminated'))
+    })
+
+    process.on('exit', () => {
+      cmd.kill()
+      reject(new Error('Exited'))
     })
   })
 }

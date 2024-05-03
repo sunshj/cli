@@ -1,7 +1,15 @@
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import inquirer from 'inquirer'
 import consola from 'consola'
-import { execShell, getPackageManagement, getPkgJSON, getVSCodeSettings, spinner } from '../utils'
+import {
+  checkExists,
+  execShell,
+  getPackageManagement,
+  getPkgJSON,
+  getVSCodeSettings,
+  spinner
+} from '../utils'
 import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '../constants'
 
 export async function selectESLint() {
@@ -77,19 +85,23 @@ export async function handleConfigurePackage(
   spinner.start(`Installing ${configPkg}...\n`)
   const installPkgs = CONFIG_INSTALL_MAP.get(configPkg)!
 
-  const install = await execShell(management, [
+  const installed = await execShell(management, [
     'install',
     ...installPkgs,
     '-D',
     isWorkspace ? '-w' : ''
-  ])
+  ]).catch((error: any) => {
+    spinner.fail(`${configPkg} installation failed: ${error.message}`)
+    process.exit(1)
+  })
 
-  if (!install) return spinner.fail(`${configPkg} installation failed`)
-  spinner.succeed(`${configPkg} installed successfully`)
-  if (configPkg === 'eslint') await configureESLint()
-  if (configPkg === 'prettier') await configurePrettier()
-  if (configPkg === 'stylelint') await configureStyleLint()
-  if (configPkg === 'lintStaged') await configureLintStaged()
+  if (installed) {
+    spinner.succeed(`${configPkg} installed successfully`)
+    if (configPkg === 'eslint') await configureESLint()
+    if (configPkg === 'prettier') await configurePrettier()
+    if (configPkg === 'stylelint') await configureStyleLint()
+    if (configPkg === 'lintStaged') await configureLintStaged()
+  }
 }
 
 async function configureESLint() {
@@ -170,4 +182,14 @@ async function configureLintStaged() {
   ])
   if (!husky) return consola.error('pre-commit hook configuration failed')
   consola.success('pre-commit hook configured successfully')
+}
+
+export async function configureGitAttributes() {
+  const GIT_ATTRS = '* text=auto eol=lf'
+  const filePath = path.resolve(process.cwd(), '.gitattributes')
+  const isExisted = await checkExists(filePath)
+  if (!isExisted) await fs.writeFile(filePath, GIT_ATTRS)
+  const fileContent = await fs.readFile(filePath, 'utf-8')
+  if (!fileContent.includes(GIT_ATTRS)) await fs.appendFile(filePath, `\n${GIT_ATTRS}`)
+  consola.success('git attributes configured successfully')
 }

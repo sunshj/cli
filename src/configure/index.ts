@@ -2,6 +2,7 @@ import { defineCommand } from 'citty'
 import consola from 'consola'
 import { colors } from 'consola/utils'
 import {
+  configureGitAttributes,
   handleConfigurePackage,
   selectESLint,
   selectLintStaged,
@@ -69,6 +70,7 @@ export const configureProjectCommand = defineCommand({
     consola.info('Monorepo project:', colors.blueBright(workspace.toString()))
     const { packageManagement } = await selectPackageManagement()
 
+    await configureGitAttributes()
     for (const pkg of configurePkgs) {
       await handleConfigurePackage(pkg, packageManagement, workspace)
     }
