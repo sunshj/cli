@@ -1,9 +1,12 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { checkExists } from '../utils'
 import { configureProject, selectModuleAlias, selectModuleType } from './util'
+
+const __filename = fileURLToPath(import.meta.url)
 
 export const newProjectCommand = defineCommand({
   meta: {
@@ -30,7 +33,7 @@ export const newProjectCommand = defineCommand({
 
     await fs.mkdir(path.join(process.cwd(), projectName), { recursive: true })
 
-    await fs.cp(path.join(process.cwd(), 'templates/basic'), projectName, {
+    await fs.cp(path.resolve(__filename, '../..', 'templates/basic'), projectName, {
       recursive: true
     })
 
