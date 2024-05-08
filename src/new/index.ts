@@ -30,7 +30,7 @@ export const newProjectCommand = defineCommand({
 
     await fs.mkdir(path.join(process.cwd(), projectName), { recursive: true })
 
-    await fs.cp(path.join(process.cwd(), './src/templates/basic'), projectName, {
+    await fs.cp(path.join(process.cwd(), 'templates/basic'), projectName, {
       recursive: true
     })
 
