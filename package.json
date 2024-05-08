@@ -16,6 +16,7 @@
   "scripts": {
     "dev:create": "tsx src/index.ts create example-app",
     "dev:config": "tsx src/index.ts config",
+    "dev:new": "tsx src/index.ts new example-app",
     "build": "tsup",
     "start:create": "node dist/index.js create example-app",
     "start:config": "node dist/index.js config",

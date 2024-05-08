@@ -3,6 +3,7 @@ import { version as pkgVersion } from '../package.json'
 import { CLI_NAME } from './constants'
 import { configureProjectCommand } from './configure'
 import { createProjectCommand } from './create'
+import { newProjectCommand } from './new'
 
 const main = defineCommand({
   meta: {
@@ -13,7 +14,8 @@ const main = defineCommand({
 
   subCommands: {
     create: createProjectCommand,
-    config: configureProjectCommand
+    config: configureProjectCommand,
+    new: newProjectCommand
   }
 })
 

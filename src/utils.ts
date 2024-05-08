@@ -57,7 +57,7 @@ export function downloadGithubRepo(repoName: string, dir: string) {
   return execShell('git', ['clone', `https://github.com/${repoName}.git`, dir])
 }
 
-export async function getPackageManagement(dir: string) {
+export async function getPackageManager(dir: string) {
   const hasPnpm = await checkExists(path.resolve(dir, 'pnpm-lock.yaml'))
 
   if (hasPnpm) return 'pnpm'

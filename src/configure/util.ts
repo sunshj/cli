@@ -5,7 +5,7 @@ import consola from 'consola'
 import {
   checkExists,
   execShell,
-  getPackageManagement,
+  getPackageManager,
   getPkgJSON,
   getVSCodeSettings,
   spinner
@@ -56,13 +56,13 @@ export async function selectLintStaged() {
   ])
 }
 
-export async function selectPackageManagement() {
-  return await inquirer.prompt<{ packageManagement: string }>([
+export async function selectPackageManager() {
+  return await inquirer.prompt<{ packageManager: string }>([
     {
-      name: 'packageManagement',
-      message: 'Which package management do you want to use?',
+      name: 'packageManager',
+      message: 'Which package manager do you want to use?',
       type: 'list',
-      default: await getPackageManagement(process.cwd()),
+      default: await getPackageManager(process.cwd()),
       choices: ['npm', 'pnpm']
     }
   ])
@@ -169,7 +169,7 @@ async function configureLintStaged() {
   pkgJSON.scripts.prepare = 'husky install'
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
-  const management = await getPackageManagement(process.cwd())
+  const management = await getPackageManager(process.cwd())
   const prepare = await execShell(management, ['run', 'prepare'])
   if (!prepare) return consola.error('lint-staged configuration failed')
   consola.success('lint-staged configured successfully')

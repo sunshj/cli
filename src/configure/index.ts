@@ -6,7 +6,7 @@ import {
   handleConfigurePackage,
   selectESLint,
   selectLintStaged,
-  selectPackageManagement,
+  selectPackageManager,
   selectPrettier,
   selectStyleLint,
   transformConfigurePkgs
@@ -68,11 +68,11 @@ export const configureProjectCommand = defineCommand({
 
     consola.success('Selected configs:', colors.blueBright(configurePkgs.join(', ')))
     consola.info('Monorepo project:', colors.blueBright(workspace.toString()))
-    const { packageManagement } = await selectPackageManagement()
+    const { packageManager } = await selectPackageManager()
 
     await configureGitAttributes()
     for (const pkg of configurePkgs) {
-      await handleConfigurePackage(pkg, packageManagement, workspace)
+      await handleConfigurePackage(pkg, packageManager, workspace)
     }
   }
 })
