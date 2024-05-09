@@ -8,7 +8,7 @@ import { newProjectCommand } from './new'
 const main = defineCommand({
   meta: {
     name: CLI_NAME,
-    description: 'CLI to create some starter project',
+    description: 'CLI tool for simplifying project creation and configuration',
     version: pkgVersion
   },
 

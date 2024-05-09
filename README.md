@@ -6,7 +6,7 @@ npm i sunshj -g
 sun --version
 ```
 
-## 创建模版(github)
+## 创建项目(github模版)
 
 ```bash
 sun create my-app

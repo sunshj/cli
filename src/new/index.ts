@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 export const newProjectCommand = defineCommand({
   meta: {
     name: 'new',
-    description: 'Create a new node.js project'
+    description: 'Create a new Node.js project'
   },
   args: {
     projectName: {

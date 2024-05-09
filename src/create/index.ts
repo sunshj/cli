@@ -9,7 +9,7 @@ import { selectFramework, selectTemplate } from './util'
 export const createProjectCommand = defineCommand({
   meta: {
     name: 'create',
-    description: 'Create a new project with a template'
+    description: 'Create a new project with github template'
   },
 
   args: {
