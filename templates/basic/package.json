@@ -1,16 +1,16 @@
 {
   "name": "basic",
   "private": true,
+  "license": "ISC",
   "main": "index.js",
-  "engines": {
-    "node": ">= 18"
-  },
   "scripts": {
     "dev": "node --no-warnings --es-module-specifier-resolution=node --watch src",
     "start": "node --es-module-specifier-resolution=node src"
   },
-  "license": "ISC",
   "devDependencies": {
     "@types/node": "latest"
+  },
+  "engines": {
+    "node": ">= 18"
   }
 }

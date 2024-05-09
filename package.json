@@ -1,16 +1,18 @@
 {
   "name": "sunshj",
   "version": "1.0.9",
-  "type": "module",
   "description": "供创建个人预设starter、配置项目使用",
-  "bin": {
-    "sun": "bin/cli.mjs"
-  },
+  "type": "module",
+  "license": "ISC",
+  "author": "sunshj",
   "files": [
     "bin",
     "dist",
     "templates"
   ],
+  "bin": {
+    "sun": "bin/cli.mjs"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -28,8 +30,12 @@
     "lint": "eslint .",
     "format": "prettier --write ."
   },
-  "author": "sunshj",
-  "license": "ISC",
+  "dependencies": {
+    "citty": "^0.1.6",
+    "consola": "^3.2.3",
+    "inquirer": "^9.2.17",
+    "ora": "^8.0.1"
+  },
   "devDependencies": {
     "@sunshj/eslint-config": "^1.0.6",
     "@sunshj/prettier-config": "^1.0.0",
@@ -43,19 +49,13 @@
     "prettier": "^3.2.5",
     "tsup": "^8.0.2",
     "tsx": "^4.7.1",
-    "typescript": "^5.4.3"
-  },
-  "prettier": "@sunshj/prettier-config",
-  "dependencies": {
-    "citty": "^0.1.6",
-    "consola": "^3.2.3",
-    "inquirer": "^9.2.17",
-    "ora": "^8.0.1"
+    "typescript": "^5.3.3"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "prettier": "@sunshj/prettier-config"
 }

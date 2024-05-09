@@ -1,7 +1,7 @@
 import { defineCommand, runMain } from 'citty'
 import { version as pkgVersion } from '../package.json'
 import { CLI_NAME } from './constants'
-import { configureProjectCommand } from './configure'
+import { configureProjectCommand } from './config'
 import { createProjectCommand } from './create'
 import { newProjectCommand } from './new'
 

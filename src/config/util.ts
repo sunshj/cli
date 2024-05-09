@@ -79,13 +79,13 @@ export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
 
 export async function handleConfigurePackage(
   configPkg: string,
-  management: string,
+  pkgManager: string,
   isWorkspace: boolean
 ) {
   spinner.start(`Installing ${configPkg}...\n`)
   const installPkgs = CONFIG_INSTALL_MAP.get(configPkg)!
 
-  const installed = await execShell(management, [
+  const installed = await execShell(pkgManager, [
     'install',
     ...installPkgs,
     '-D',
@@ -107,6 +107,18 @@ export async function handleConfigurePackage(
 async function configureESLint() {
   const { vscodeSettings, vscodeSettingsPath } = await getVSCodeSettings(process.cwd())
   vscodeSettings['eslint.experimental.useFlatConfig'] = true
+  vscodeSettings['eslint.validate'] = [
+    'javascript',
+    'javascriptreact',
+    'typescript',
+    'typescriptreact',
+    'vue',
+    'html',
+    'markdown',
+    'json',
+    'jsonc',
+    'yaml'
+  ]
   await fs.writeFile(vscodeSettingsPath, JSON.stringify(vscodeSettings, null, 2))
 
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
