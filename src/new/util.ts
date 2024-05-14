@@ -34,11 +34,23 @@ export async function configureProject(projectName: string, type: string, alias:
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(path.join(process.cwd(), projectName))
   pkgJSON.name = projectName
   pkgJSON.type = type
-  if (alias) {
+  if (type === 'module') {
+    if (alias) {
+      pkgJSON.imports = {
+        '#*': './src/*'
+      }
+    }
+  } else if (alias) {
     pkgJSON.imports = {
-      '#*': './src/*'
+      '#*': './src/*.js',
+      '#utils': './src/utils/index.js'
+    }
+    pkgJSON.scripts = {
+      dev: 'node --no-warnings --watch src',
+      start: 'node src'
     }
   }
+
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
   const jsconfigPath = path.join(process.cwd(), projectName, 'jsconfig.json')
@@ -62,17 +74,23 @@ async function generateCode(projectName: string, type: string, alias: boolean) {
   const entryFile =
     type === 'module'
       ? `import { unique } from '${alias ? '#' : './'}utils'
+import { array } from '${alias ? '#' : './'}utils/array'
 
-console.log(unique([1, 1, 2, 3, 4, 4, 5]))
+console.log(unique(array))
 `
       : `const { unique } = require('${alias ? '#' : './'}utils')
+const { array } = require('${alias ? '#' : './'}utils/array')
 
-console.log(unique([1, 1, 2, 3, 4, 4, 5]))
+console.log(unique(array))
 `
 
   const utilsAppendFile =
     type === 'module' ? `\nexport { unique }\n` : `\nmodule.exports = { unique }\n`
 
+  const utilsArrayAppendFile =
+    type === 'module' ? `\nexport { array }\n` : `\nmodule.exports = { array }\n`
+
+  await fs.appendFile(path.join(srcDir, 'utils', 'array.js'), utilsArrayAppendFile)
   await fs.appendFile(path.join(srcDir, 'utils', 'index.js'), utilsAppendFile)
   await fs.writeFile(path.join(srcDir, 'index.js'), entryFile)
 }

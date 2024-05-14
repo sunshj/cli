@@ -17,13 +17,10 @@
     "access": "public"
   },
   "scripts": {
-    "dev:create": "tsx src/index.ts create example-app",
-    "dev:config": "tsx src/index.ts config",
-    "dev:new": "tsx src/index.ts new example-app",
     "build": "tsup",
-    "start:create": "node dist/index.js create example-app",
-    "start:config": "node dist/index.js config",
-    "start:new": "node dist/index.js new example-app",
+    "start:create": "tsup --silent --onSuccess \"node dist/index.js create example-app\"",
+    "start:config": "tsup --silent --onSuccess \"node dist/index.js config\"",
+    "start:new": "tsup --silent --onSuccess \"node dist/index.js new example-app\"",
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm build",
     "prepare": "husky install",
