@@ -4,6 +4,7 @@ import { colors } from 'consola/utils'
 import {
   configureGitAttributes,
   handleConfigurePackage,
+  selectCommitLint,
   selectESLint,
   selectLintStaged,
   selectPackageManager,
@@ -38,6 +39,11 @@ export const configureProjectCommand = defineCommand({
       description: 'add husky, lint-staged, pre-commit hook',
       default: false
     },
+    commitlint: {
+      type: 'boolean',
+      description: 'add commitlint, commitizen, cz-git',
+      default: false
+    },
     workspace: {
       type: 'boolean',
       alias: 'w',
@@ -58,8 +64,11 @@ export const configureProjectCommand = defineCommand({
       const { prettier } = await selectPrettier()
       const { stylelint } = await selectStyleLint()
       const { lintStaged } = await selectLintStaged()
+      const { commitlint } = await selectCommitLint()
 
-      configurePkgs.push(...transformConfigurePkgs({ eslint, prettier, stylelint, lintStaged }))
+      configurePkgs.push(
+        ...transformConfigurePkgs({ eslint, prettier, stylelint, lintStaged, commitlint })
+      )
       if (configurePkgs.length === 0) {
         consola.error('No packages selected. Exiting...')
         return

@@ -10,13 +10,13 @@ import {
   getVSCodeSettings,
   spinner
 } from '../utils'
-import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '../constants'
+import { ALLOW_ARGS, ALLOW_CONFIGS, COMMITLINT_CONFIG, CONFIG_INSTALL_MAP } from '../constants'
 
 export async function selectESLint() {
   return await inquirer.prompt<{ eslint: boolean }>([
     {
       name: 'eslint',
-      message: 'Do you want to use eslint?',
+      message: 'Do you want to use eslint?(default:Yes)',
       type: 'confirm',
       default: true
     }
@@ -27,7 +27,7 @@ export async function selectPrettier() {
   return await inquirer.prompt<{ prettier: boolean }>([
     {
       name: 'prettier',
-      message: 'Do you want to use prettier?',
+      message: 'Do you want to use prettier?(default:Yes)',
       type: 'confirm',
       default: true
     }
@@ -38,9 +38,9 @@ export async function selectStyleLint() {
   return await inquirer.prompt<{ stylelint: boolean }>([
     {
       name: 'stylelint',
-      message: 'Do you want to use stylelint?',
+      message: 'Do you want to use stylelint?(default:No)',
       type: 'confirm',
-      default: true
+      default: false
     }
   ])
 }
@@ -49,9 +49,20 @@ export async function selectLintStaged() {
   return await inquirer.prompt<{ lintStaged: boolean }>([
     {
       name: 'lintStaged',
-      message: 'Do you want to use lint-staged?',
+      message: 'Do you want to use lint-staged?(default:No)',
       type: 'confirm',
-      default: true
+      default: false
+    }
+  ])
+}
+
+export async function selectCommitLint() {
+  return await inquirer.prompt<{ commitlint: boolean }>([
+    {
+      name: 'commitlint',
+      message: 'Do you want to use commitlint?(default:No)',
+      type: 'confirm',
+      default: false
     }
   ])
 }
@@ -101,6 +112,7 @@ export async function handleConfigurePackage(
     if (configPkg === 'prettier') await configurePrettier()
     if (configPkg === 'stylelint') await configureStyleLint()
     if (configPkg === 'lintStaged') await configureLintStaged()
+    if (configPkg === 'commitlint') await configureCommitLint()
   }
 }
 
@@ -204,4 +216,35 @@ export async function configureGitAttributes() {
   const fileContent = await fs.readFile(filePath, 'utf-8')
   if (!fileContent.includes(GIT_ATTRS)) await fs.appendFile(filePath, `\n${GIT_ATTRS}`)
   consola.success('git attributes configured successfully')
+}
+
+async function configureCommitLint() {
+  const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
+  pkgJSON.config = {
+    commitizen: {
+      path: 'node_modules/cz-git'
+    }
+  }
+  if (!pkgJSON.scripts) pkgJSON.scripts = {}
+  pkgJSON.scripts.commit = 'git-cz'
+  await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
+
+  const commitlintConfig =
+    pkgJSON.type === 'module'
+      ? `/** @type {import('cz-git').UserConfig} */
+export default ${JSON.stringify(COMMITLINT_CONFIG, null, 2)}`
+      : `/** @type {import('cz-git').UserConfig} */
+module.exports = ${JSON.stringify(COMMITLINT_CONFIG, null, 2)}`
+
+  await fs.writeFile(path.resolve(process.cwd(), 'commitlint.config.js'), commitlintConfig)
+
+  const commitMsg = await execShell('npx', [
+    'husky',
+    'set',
+    '.husky/commit-msg',
+    `"npx --no-install commitlint --config commitlint.config.js --edit $1"`
+  ])
+
+  if (!commitMsg) return consola.error('commit-msg hook configuration failed')
+  consola.success('commit-msg hook configured successfully')
 }
