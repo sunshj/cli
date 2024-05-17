@@ -19,6 +19,9 @@ dependencies:
     version: 8.0.1
 
 devDependencies:
+  '@sunshj/commitlint-config':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@sunshj/eslint-config':
     specifier: ^1.0.6
     version: 1.0.6(eslint@8.57.0)(typescript@5.3.3)
@@ -796,6 +799,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@sunshj/commitlint-config@1.0.0:
+    resolution: {integrity: sha512-tiy/d4lcSfCoyDN2s0Cf+sFxMlkJswxBW9urvcbau9KN+0VMrLx2G+CGcqOEWoYQpX7O2/Ii0TYfsJCb+/UJFA==}
+    dev: true
 
   /@sunshj/eslint-config@1.0.6(eslint@8.57.0)(typescript@5.3.3):
     resolution: {integrity: sha512-pSBvw2e521lTKy+uoctX2+O54TTg73s7KRcsVLgSlkPBj/eHXx4xAbGOlxuUxurxzd4cMXLdqeNTxNldVCHEVQ==}

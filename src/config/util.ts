@@ -10,7 +10,7 @@ import {
   getVSCodeSettings,
   spinner
 } from '../utils'
-import { ALLOW_ARGS, ALLOW_CONFIGS, COMMITLINT_CONFIG, CONFIG_INSTALL_MAP } from '../constants'
+import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '../constants'
 
 export async function selectTools() {
   return await inquirer.prompt<{ tools: string[] }>([
@@ -219,9 +219,15 @@ async function configureCommitLint() {
   const commitlintConfig =
     pkgJSON.type === 'module'
       ? `/** @type {import('cz-git').UserConfig} */
-export default ${JSON.stringify(COMMITLINT_CONFIG, null, 2)}`
+export default {
+  extends: ['@sunshj/commitlint-config']
+}
+`
       : `/** @type {import('cz-git').UserConfig} */
-module.exports = ${JSON.stringify(COMMITLINT_CONFIG, null, 2)}`
+module.exports = {
+  extends: ['@sunshj/commitlint-config']
+}
+`
 
   await fs.writeFile(path.resolve(process.cwd(), 'commitlint.config.js'), commitlintConfig)
 
