@@ -46,11 +46,9 @@ export async function selectTools() {
         if (input.includes('commitlint') && !input.includes('lintStaged')) {
           const { pkgJSON } = await getPkgJSON(process.cwd())
           const deps = { ...pkgJSON.devDependencies, ...pkgJSON.dependencies }
-          if (!deps.husky) {
-            return 'lint-staged is required when using commitlint'
-          }
-          return true
+          if (!deps.husky) return 'lint-staged is required when using commitlint'
         }
+        return true
       }
     }
   ])
