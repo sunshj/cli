@@ -1,10 +1,9 @@
-import fs from 'node:fs/promises'
 import path from 'node:path'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '../constants'
-import { checkExists, deleteGitFolder, downloadGithubRepo, spinner, updatePkgName } from '../utils'
-import { selectFramework, selectTemplate } from './util'
+import { checkExists } from '../utils'
+import { createProject, inputTemplateRepo, selectFramework, selectTemplate } from './util'
 
 export const createProjectCommand = defineCommand({
   meta: {
@@ -18,14 +17,26 @@ export const createProjectCommand = defineCommand({
       description: 'The name of the project to create',
       required: true,
       default: 'my-project'
+    },
+    custom: {
+      type: 'boolean',
+      description: 'Custom template (github repo)',
+      alias: 'c',
+      default: false
     }
   },
 
   async run({ args }) {
-    const { projectName } = args
+    const { projectName, custom } = args
     const isExisted = await checkExists(path.resolve(process.cwd(), projectName))
     if (isExisted) {
       consola.error(`Directory ${projectName} is already exists.`)
+      return
+    }
+
+    if (custom) {
+      const { templateRepo } = await inputTemplateRepo()
+      await createProject(projectName, templateRepo)
       return
     }
 
@@ -37,26 +48,7 @@ export const createProjectCommand = defineCommand({
       consola.error(`Template ${template} not found.`)
       return
     }
-    await fs.mkdir(path.join(process.cwd(), projectName), { recursive: true })
 
-    spinner.start()
-
-    const isDownloaded = await downloadGithubRepo(repoName, path.join(process.cwd(), projectName))
-      .catch(error => {
-        spinner.fail(`Failed to clone ${template} repository: ${error.message}`)
-        fs.rmdir(projectName)
-      })
-      .finally(() => {
-        spinner.stop()
-      })
-
-    if (isDownloaded) {
-      spinner.succeed('Download template successfully.')
-      await updatePkgName(projectName)
-      await deleteGitFolder(projectName)
-      consola.success(`Now run the following commands:
-      cd ${projectName} 
-      npm install`)
-    }
+    await createProject(projectName, repoName)
   }
 })

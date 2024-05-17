@@ -12,57 +12,46 @@ import {
 } from '../utils'
 import { ALLOW_ARGS, ALLOW_CONFIGS, COMMITLINT_CONFIG, CONFIG_INSTALL_MAP } from '../constants'
 
-export async function selectESLint() {
-  return await inquirer.prompt<{ eslint: boolean }>([
+export async function selectTools() {
+  return await inquirer.prompt<{ tools: string[] }>([
     {
-      name: 'eslint',
-      message: 'Do you want to use eslint?(default:Yes)',
-      type: 'confirm',
-      default: true
-    }
-  ])
-}
-
-export async function selectPrettier() {
-  return await inquirer.prompt<{ prettier: boolean }>([
-    {
-      name: 'prettier',
-      message: 'Do you want to use prettier?(default:Yes)',
-      type: 'confirm',
-      default: true
-    }
-  ])
-}
-
-export async function selectStyleLint() {
-  return await inquirer.prompt<{ stylelint: boolean }>([
-    {
-      name: 'stylelint',
-      message: 'Do you want to use stylelint?(default:No)',
-      type: 'confirm',
-      default: false
-    }
-  ])
-}
-
-export async function selectLintStaged() {
-  return await inquirer.prompt<{ lintStaged: boolean }>([
-    {
-      name: 'lintStaged',
-      message: 'Do you want to use lint-staged?(default:No)',
-      type: 'confirm',
-      default: false
-    }
-  ])
-}
-
-export async function selectCommitLint() {
-  return await inquirer.prompt<{ commitlint: boolean }>([
-    {
-      name: 'commitlint',
-      message: 'Do you want to use commitlint?(default:No)',
-      type: 'confirm',
-      default: false
+      name: 'tools',
+      message: 'Which tools do you want to use?',
+      type: 'checkbox',
+      choices: [
+        {
+          checked: true,
+          name: 'ESLint',
+          value: 'eslint'
+        },
+        {
+          checked: true,
+          name: 'Prettier',
+          value: 'prettier'
+        },
+        {
+          name: 'StyleLint',
+          value: 'stylelint'
+        },
+        {
+          name: 'lint-staged',
+          value: 'lintStaged'
+        },
+        {
+          name: 'CommitLint',
+          value: 'commitlint'
+        }
+      ],
+      async validate(input) {
+        if (input.includes('commitlint') && !input.includes('lintStaged')) {
+          const { pkgJSON } = await getPkgJSON(process.cwd())
+          const deps = { ...pkgJSON.devDependencies, ...pkgJSON.dependencies }
+          if (!deps.husky) {
+            return 'lint-staged is required when using commitlint'
+          }
+          return true
+        }
+      }
     }
   ])
 }

@@ -4,12 +4,8 @@ import { colors } from 'consola/utils'
 import {
   configureGitAttributes,
   handleConfigurePackage,
-  selectCommitLint,
-  selectESLint,
-  selectLintStaged,
   selectPackageManager,
-  selectPrettier,
-  selectStyleLint,
+  selectTools,
   transformConfigurePkgs
 } from './util'
 
@@ -60,23 +56,16 @@ export const configureProjectCommand = defineCommand({
     if (configurePkgsFromArgs.length > 0) {
       configurePkgs.push(...configurePkgsFromArgs)
     } else {
-      const { eslint } = await selectESLint()
-      const { prettier } = await selectPrettier()
-      const { stylelint } = await selectStyleLint()
-      const { lintStaged } = await selectLintStaged()
-      const { commitlint } = await selectCommitLint()
-
-      configurePkgs.push(
-        ...transformConfigurePkgs({ eslint, prettier, stylelint, lintStaged, commitlint })
-      )
+      const { tools } = await selectTools()
+      configurePkgs.push(...tools)
       if (configurePkgs.length === 0) {
         consola.error('No packages selected. Exiting...')
         return
       }
     }
 
-    consola.success('Selected configs:', colors.blueBright(configurePkgs.join(', ')))
-    consola.info('Monorepo project:', colors.blueBright(workspace.toString()))
+    consola.success('Selected tools:', colors.blueBright(configurePkgs.join(', ')))
+    consola.info('Monorepo Project:', colors.blueBright(workspace.toString()))
     const { packageManager } = await selectPackageManager()
 
     await configureGitAttributes()
