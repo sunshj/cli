@@ -12,7 +12,7 @@ import {
 export const configureProjectCommand = defineCommand({
   meta: {
     name: 'config',
-    description: 'Configure the project, add eslint/prettier/stylelint/lint-staged etc.'
+    description: 'Configure the project, add eslint/prettier/stylelint/lint-staged/commitlint etc.'
   },
   args: {
     eslint: {
@@ -37,7 +37,7 @@ export const configureProjectCommand = defineCommand({
     },
     commitlint: {
       type: 'boolean',
-      description: 'add commitlint, commitizen, cz-git',
+      description: 'add commitlint, commitizen, cz-git, commit-msg hook',
       default: false
     },
     workspace: {

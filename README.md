@@ -28,7 +28,7 @@ sun create my-app
 sun config
 
 # or
-sun config --eslint --prettier --stylelint --lintStaged -w
+sun config --eslint --prettier --stylelint --lintStaged --commitlint -w
 ```
 
 ## 创建Node.js项目
