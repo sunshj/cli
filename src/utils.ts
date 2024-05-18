@@ -22,6 +22,15 @@ export async function getPkgJSON(dir: string) {
   return { pkgJSON, pkgJsonPath }
 }
 
+/**
+ *更新package.json的对象属性
+ */
+export function patchUpdate(obj: Record<string, any>, key: string, value: Record<string, any>) {
+  if (!obj[key]) obj[key] = {}
+  obj[key] = { ...obj[key], ...value }
+  return obj
+}
+
 export async function getVSCodeSettings(dir: string) {
   const vscodeSettingsPath = path.resolve(dir, '.vscode/settings.json')
   const vscodeSettingExist = await checkExists(vscodeSettingsPath)

@@ -8,6 +8,7 @@ import {
   getPackageManager,
   getPkgJSON,
   getVSCodeSettings,
+  patchUpdate,
   spinner
 } from '../utils'
 import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '../constants'
@@ -150,8 +151,7 @@ module.exports = defineConfig({})
 async function configurePrettier() {
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
   pkgJSON.prettier = '@sunshj/prettier-config'
-  if (!pkgJSON.scripts) pkgJSON.scripts = {}
-  pkgJSON.scripts.format = 'prettier --write .'
+  patchUpdate(pkgJSON, 'scripts', { format: 'prettier --write .' })
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 }
 
@@ -161,24 +161,20 @@ async function configureStyleLint() {
   await fs.writeFile(vscodeSettingsPath, JSON.stringify(vscodeSettings, null, 2))
 
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
-  pkgJSON.stylelint = {
-    extends: '@sunshj/stylelint-config'
-  }
-  if (!pkgJSON.scripts) pkgJSON.scripts = {}
-  pkgJSON.scripts.stylelint =
-    'stylelint --cache --fix "src/**/*.{vue,css,scss}" --cache --cache-location node_modules/.cache/stylelint/'
-
+  pkgJSON.stylelint = { extends: '@sunshj/stylelint-config' }
+  patchUpdate(pkgJSON, 'scripts', {
+    stylelint:
+      'stylelint --cache --fix "src/**/*.{vue,css,scss}" --cache --cache-location node_modules/.cache/stylelint/'
+  })
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 }
 
 async function configureLintStaged() {
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
-  pkgJSON['lint-staged'] = {
+  patchUpdate(pkgJSON, 'lint-staged', {
     'src/**/*.{vue,js,ts,jsx,tsx}': ['eslint --fix', 'prettier --write']
-  }
-  if (!pkgJSON.scripts) pkgJSON.scripts = {}
-  if (!pkgJSON['simple-git-hooks']) pkgJSON['simple-git-hooks'] = {}
-  pkgJSON['simple-git-hooks']['pre-commit'] = 'npx lint-staged'
+  })
+  patchUpdate(pkgJSON, 'simple-git-hooks', { 'pre-commit': 'npx lint-staged' })
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
   const prepare = await execShell('npx', ['simple-git-hooks'])
@@ -203,12 +199,11 @@ async function configureCommitLint() {
       path: 'node_modules/cz-git'
     }
   }
-  if (!pkgJSON.scripts) pkgJSON.scripts = {}
-  pkgJSON.scripts.commit = 'git-cz'
 
-  if (!pkgJSON['simple-git-hooks']) pkgJSON['simple-git-hooks'] = {}
-  pkgJSON['simple-git-hooks']['commit-msg'] =
-    'npx --no-install commitlint --config commitlint.config.js --edit $1'
+  patchUpdate(pkgJSON, 'scripts', { commit: 'git-cz' })
+  patchUpdate(pkgJSON, 'simple-git-hooks', {
+    'commit-msg': 'npx --no-install commitlint --config commitlint.config.js --edit $1'
+  })
 
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
