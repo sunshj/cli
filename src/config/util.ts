@@ -46,7 +46,7 @@ export async function selectTools() {
         if (input.includes('commitlint') && !input.includes('lintStaged')) {
           const { pkgJSON } = await getPkgJSON(process.cwd())
           const deps = { ...pkgJSON.devDependencies, ...pkgJSON.dependencies }
-          if (!deps.husky) return 'lint-staged is required when using commitlint'
+          if (!deps['simple-git-hooks']) return 'lintStaged is required when using commitlint'
         }
         return true
       }
@@ -177,22 +177,13 @@ async function configureLintStaged() {
     'src/**/*.{vue,js,ts,jsx,tsx}': ['eslint --fix', 'prettier --write']
   }
   if (!pkgJSON.scripts) pkgJSON.scripts = {}
-  pkgJSON.scripts.prepare = 'husky install'
+  if (!pkgJSON['simple-git-hooks']) pkgJSON['simple-git-hooks'] = {}
+  pkgJSON['simple-git-hooks']['pre-commit'] = 'npx lint-staged'
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
-  const management = await getPackageManager(process.cwd())
-  const prepare = await execShell(management, ['run', 'prepare'])
+  const prepare = await execShell('npx', ['simple-git-hooks'])
   if (!prepare) return consola.error('lint-staged configuration failed')
   consola.success('lint-staged configured successfully')
-
-  const husky = await execShell('npx', [
-    'husky',
-    'set',
-    '.husky/pre-commit',
-    `"npx lint-staged --verbose --no-stash"`
-  ])
-  if (!husky) return consola.error('pre-commit hook configuration failed')
-  consola.success('pre-commit hook configured successfully')
 }
 
 export async function configureGitAttributes() {
@@ -214,6 +205,11 @@ async function configureCommitLint() {
   }
   if (!pkgJSON.scripts) pkgJSON.scripts = {}
   pkgJSON.scripts.commit = 'git-cz'
+
+  if (!pkgJSON['simple-git-hooks']) pkgJSON['simple-git-hooks'] = {}
+  pkgJSON['simple-git-hooks']['commit-msg'] =
+    'npx --no-install commitlint --config commitlint.config.js --edit $1'
+
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
   const commitlintConfig =
@@ -228,16 +224,8 @@ module.exports = {
   extends: ['@sunshj/commitlint-config']
 }
 `
-
   await fs.writeFile(path.resolve(process.cwd(), 'commitlint.config.js'), commitlintConfig)
-
-  const commitMsg = await execShell('npx', [
-    'husky',
-    'set',
-    '.husky/commit-msg',
-    `"npx --no-install commitlint --config commitlint.config.js --edit $1"`
-  ])
-
-  if (!commitMsg) return consola.error('commit-msg hook configuration failed')
-  consola.success('commit-msg hook configured successfully')
+  const prepare = await execShell('npx', ['simple-git-hooks'])
+  if (!prepare) return consola.error('commitlint configuration failed')
+  consola.success('commitlint configured successfully')
 }

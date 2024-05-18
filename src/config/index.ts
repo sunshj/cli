@@ -32,7 +32,7 @@ export const configureProjectCommand = defineCommand({
     },
     lintStaged: {
       type: 'boolean',
-      description: 'add husky, lint-staged, pre-commit hook',
+      description: 'add simple-git-hooks, lint-staged, pre-commit hook',
       default: false
     },
     commitlint: {

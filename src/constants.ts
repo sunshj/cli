@@ -37,7 +37,7 @@ export const CONFIG_INSTALL_MAP = new Map(
     eslint: ['eslint@8', '@sunshj/eslint-config'],
     prettier: ['prettier', '@sunshj/prettier-config'],
     stylelint: ['stylelint@16', '@sunshj/stylelint-config'],
-    lintStaged: ['lint-staged@15', 'husky@8'],
+    lintStaged: ['lint-staged@15', 'simple-git-hooks'],
     commitlint: ['commitlint@18', 'cz-git', 'commitizen', '@sunshj/commitlint-config']
   })
 )
