@@ -23,11 +23,16 @@ export async function getPkgJSON(dir: string) {
 }
 
 /**
- *更新package.json的对象属性
+ * 更新package.json的属性
  */
-export function patchUpdate(obj: Record<string, any>, key: string, value: Record<string, any>) {
-  if (!obj[key]) obj[key] = {}
-  obj[key] = { ...obj[key], ...value }
+export function patchUpdate(obj: Record<string, any>, key: string, value: any) {
+  if (Array.isArray(value)) {
+    obj[key] = [...(obj[key] ?? []), ...value]
+  } else if (typeof value === 'object' && value !== null) {
+    obj[key] = { ...(obj[key] ?? {}), ...value }
+  } else {
+    obj[key] = value
+  }
   return obj
 }
 
