@@ -142,9 +142,7 @@ module.exports = defineConfig({})
       'utf-8'
     )
   }
-
-  if (!pkgJSON.scripts) pkgJSON.scripts = {}
-  pkgJSON.scripts.lint = 'eslint .'
+  patchUpdate(pkgJSON, 'scripts', { lint: 'eslint .' })
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 }
 
@@ -207,15 +205,8 @@ async function configureCommitLint() {
 
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
-  const commitlintConfig =
-    pkgJSON.type === 'module'
-      ? `/** @type {import('cz-git').UserConfig} */
-export default {
-  extends: ['@sunshj/commitlint-config']
-}
-`
-      : `/** @type {import('cz-git').UserConfig} */
-module.exports = {
+  const commitlintConfig = `/** @type {import('cz-git').UserConfig} */
+${pkgJSON.type === 'module' ? 'export default' : 'module.exports'} {
   extends: ['@sunshj/commitlint-config']
 }
 `
