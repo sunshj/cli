@@ -3,8 +3,10 @@ import fs from 'node:fs/promises'
 import inquirer from 'inquirer'
 import { getPkgJSON } from '../utils'
 
+type ModuleType = 'module' | 'commonjs'
+
 export async function selectModuleType() {
-  return await inquirer.prompt<{ type: string }>({
+  return await inquirer.prompt<{ type: ModuleType }>({
     name: 'type',
     message: 'What type of module do you want to create?',
     type: 'list',
@@ -30,7 +32,7 @@ export async function selectModuleAlias() {
   })
 }
 
-export async function configureProject(projectName: string, type: string, alias: boolean) {
+export async function configureProject(projectName: string, type: ModuleType, alias: boolean) {
   const { pkgJSON, pkgJsonPath } = await getPkgJSON(path.join(process.cwd(), projectName))
   pkgJSON.name = projectName
   pkgJSON.type = type
@@ -40,10 +42,12 @@ export async function configureProject(projectName: string, type: string, alias:
         '#*': './src/*'
       }
     }
-  } else if (alias) {
-    pkgJSON.imports = {
-      '#*': './src/*.js',
-      '#utils': './src/utils/index.js'
+  } else {
+    if (alias) {
+      pkgJSON.imports = {
+        '#*': './src/*.js',
+        '#utils': './src/utils/index.js'
+      }
     }
     pkgJSON.scripts = {
       dev: 'node --no-warnings --watch src',
