@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { checkExists } from '../utils'
-import { configureProject, selectModuleAlias, selectModuleType } from './util'
+import { configureProject, selectModuleAlias, selectModuleType } from './step'
 
 const __filename = fileURLToPath(import.meta.url)
 

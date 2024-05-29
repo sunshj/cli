@@ -3,7 +3,7 @@ import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '../constants'
 import { checkExists } from '../utils'
-import { createProject, inputTemplateRepo, selectFramework, selectTemplate } from './util'
+import { createProject, inputTemplateRepo, selectFramework, selectTemplate } from './step'
 
 export const createProjectCommand = defineCommand({
   meta: {

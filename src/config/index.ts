@@ -3,11 +3,11 @@ import consola from 'consola'
 import { colors } from 'consola/utils'
 import {
   configureGitAttributes,
-  handleConfigurePackage,
+  configureProject,
   selectPackageManager,
   selectTools,
   transformConfigurePkgs
-} from './util'
+} from './step'
 
 export const configureProjectCommand = defineCommand({
   meta: {
@@ -69,8 +69,9 @@ export const configureProjectCommand = defineCommand({
     const { packageManager } = await selectPackageManager()
 
     await configureGitAttributes()
+
     for (const pkg of configurePkgs) {
-      await handleConfigurePackage(pkg, packageManager, workspace)
+      await configureProject(pkg, packageManager, workspace)
     }
   }
 })
