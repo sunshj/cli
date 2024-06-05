@@ -19,7 +19,7 @@ export async function configureCommitLint() {
   await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
 
   const commitlintConfig = `/** @type {import('cz-git').UserConfig} */
-${pkgJSON.type === 'module' ? 'export default' : 'module.exports'} {
+${pkgJSON.type === 'module' ? 'export default' : 'module.exports ='} {
   extends: ['@sunshj/commitlint-config']
 }
 `
