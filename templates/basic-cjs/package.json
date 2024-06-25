@@ -1,0 +1,16 @@
+{
+  "name": "basic",
+  "private": true,
+  "license": "ISC",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node --no-warnings --watch src",
+    "start": "node src"
+  },
+  "devDependencies": {
+    "@types/node": "latest"
+  },
+  "engines": {
+    "node": ">= 18"
+  }
+}

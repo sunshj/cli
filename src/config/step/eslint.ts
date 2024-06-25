@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises'
+import process from 'node:process'
 import { getPkgJSON, getVSCodeSettings, patchUpdate } from '../../utils'
 
 export async function configureESLint() {
-  const { vscodeSettings, vscodeSettingsPath } = await getVSCodeSettings(process.cwd())
+  const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())
   vscodeSettings['eslint.experimental.useFlatConfig'] = true
   vscodeSettings['eslint.validate'] = [
     'javascript',
@@ -16,9 +17,9 @@ export async function configureESLint() {
     'jsonc',
     'yaml'
   ]
-  await fs.writeFile(vscodeSettingsPath, JSON.stringify(vscodeSettings, null, 2))
+  await saveVscodeSettings()
 
-  const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
+  const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
   const pkgType = pkgJSON.type ?? 'commonjs'
   if (pkgType === 'module') {
     await fs.writeFile(
@@ -40,5 +41,5 @@ export async function configureESLint() {
     )
   }
   patchUpdate(pkgJSON, 'scripts', { lint: 'eslint .' })
-  await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
+  await savePkgJSON()
 }

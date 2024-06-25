@@ -1,10 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import process from 'node:process'
 import consola from 'consola'
 import { execShell, getPkgJSON, patchUpdate } from '../../utils'
 
 export async function configureCommitLint() {
-  const { pkgJSON, pkgJsonPath } = await getPkgJSON(process.cwd())
+  const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
   pkgJSON.config = {
     commitizen: {
       path: 'node_modules/cz-git'
@@ -16,7 +17,7 @@ export async function configureCommitLint() {
     'commit-msg': 'npx --no-install commitlint --config commitlint.config.js --edit $1'
   })
 
-  await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJSON, null, 2))
+  await savePkgJSON()
 
   const commitlintConfig = `/** @type {import('cz-git').UserConfig} */
 ${pkgJSON.type === 'module' ? 'export default' : 'module.exports ='} {

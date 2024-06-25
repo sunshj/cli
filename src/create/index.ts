@@ -1,4 +1,5 @@
 import path from 'node:path'
+import process from 'node:process'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '../constants'

@@ -1,3 +1,4 @@
+import process from 'node:process'
 import inquirer from 'inquirer'
 import { getPkgJSON } from '../../utils'
 

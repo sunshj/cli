@@ -34,10 +34,10 @@ export const ALLOW_ARGS = [...ALLOW_CONFIGS, 'workspace', 'w']
 
 export const CONFIG_INSTALL_MAP = new Map(
   Object.entries({
-    eslint: ['eslint@8', '@sunshj/eslint-config'],
-    prettier: ['prettier', '@sunshj/prettier-config'],
-    stylelint: ['stylelint@16', '@sunshj/stylelint-config'],
+    eslint: ['eslint@9', '@sunshj/eslint-config@latest'],
+    prettier: ['prettier', '@sunshj/prettier-config@latest'],
+    stylelint: ['stylelint@16', '@sunshj/stylelint-config@latest'],
     lintStaged: ['lint-staged@15', 'simple-git-hooks'],
-    commitlint: ['commitlint@18', 'cz-git', 'commitizen', '@sunshj/commitlint-config']
+    commitlint: ['commitlint@18', 'cz-git', 'commitizen', '@sunshj/commitlint-config@latest']
   })
 )

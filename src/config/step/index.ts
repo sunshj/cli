@@ -1,3 +1,4 @@
+import process from 'node:process'
 import consola from 'consola'
 import { execShell, spinner } from '../../utils'
 import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '../../constants'

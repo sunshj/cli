@@ -1,0 +1,19 @@
+{
+  "name": "basic-ts",
+  "private": true,
+  "type": "module",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "pnpm run --parallel /^watch:/",
+    "watch:build": "tsc -w",
+    "watch:start": "node --no-warnings --watch dist"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  },
+  "engines": {
+    "node": ">= 18"
+  }
+}
