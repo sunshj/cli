@@ -25,7 +25,7 @@ function capitalize<T extends string>(str: T) {
 }
 
 async function getJSONFile<T extends string = ''>(filepath: string, namespace?: T) {
-  const fileContent = await ensureReadFile(filepath)
+  const fileContent = await ensureReadFile(filepath, '{}')
   const json = JSON.parse(fileContent)
 
   const save = async (jsonObj?: Record<string, any>) => {
