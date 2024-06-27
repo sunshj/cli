@@ -1,10 +1,28 @@
 import path from 'node:path'
+import fs from 'node:fs/promises'
 import { spawn } from 'node:child_process'
 import process from 'node:process'
 import ora from 'ora'
-import { checkExists, ensureReadFile, getJSONFile } from './internals'
+import { getJSONFile } from './internals'
 
-export { ensureReadFile, checkExists }
+export async function checkExists(p: string) {
+  try {
+    await fs.access(p, fs.constants.F_OK)
+    return true
+  } catch {
+    return false
+  }
+}
+
+export async function ensureReadFile(file: string, defaultContent = '') {
+  const exists = await checkExists(file)
+  if (!exists) {
+    await fs.mkdir(path.dirname(file), { recursive: true })
+    await fs.writeFile(file, defaultContent)
+  }
+  const filecontent = await fs.readFile(file, 'utf-8')
+  return filecontent.trim() || defaultContent
+}
 
 export const spinner = ora('[Downloading template]: ')
 

@@ -1,30 +1,12 @@
-import path from 'node:path'
 import fs from 'node:fs/promises'
+import { ensureReadFile } from '.'
 import type { Trim } from './types'
-
-async function checkExists(p: string) {
-  try {
-    await fs.access(p, fs.constants.F_OK)
-    return true
-  } catch {
-    return false
-  }
-}
-
-async function ensureReadFile(file: string, defaultContent = '') {
-  const exists = await checkExists(file)
-  if (!exists) {
-    await fs.mkdir(path.dirname(file), { recursive: true })
-    await fs.writeFile(file, defaultContent)
-  }
-  return await fs.readFile(file, 'utf-8')
-}
 
 function capitalize<T extends string>(str: T) {
   return (str?.charAt(0).toUpperCase() + str?.slice(1)) as Capitalize<T>
 }
 
-async function getJSONFile<T extends string = ''>(filepath: string, namespace?: T) {
+export async function getJSONFile<T extends string = ''>(filepath: string, namespace?: T) {
   const fileContent = await ensureReadFile(filepath, '{}')
   const json = JSON.parse(fileContent)
 
@@ -45,5 +27,3 @@ async function getJSONFile<T extends string = ''>(filepath: string, namespace?: 
 
   return result as Result
 }
-
-export { checkExists, ensureReadFile, getJSONFile }
