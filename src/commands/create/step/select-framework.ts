@@ -1,5 +1,5 @@
 import inquirer from 'inquirer'
-import { Frameworks } from '../../constants'
+import { Frameworks } from '#constants'
 
 export async function selectFramework() {
   return await inquirer.prompt<{ framework: string }>([

@@ -62,6 +62,9 @@
       "prettier --write ."
     ]
   },
+  "imports": {
+    "#*": "./src/*"
+  },
   "prettier": "@sunshj/prettier-config",
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",

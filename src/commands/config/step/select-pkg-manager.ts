@@ -1,6 +1,6 @@
 import process from 'node:process'
 import inquirer from 'inquirer'
-import { getPackageManager } from '../../utils'
+import { getPackageManager } from '#utils'
 
 export async function selectPackageManager() {
   return await inquirer.prompt<{ packageManager: string }>([

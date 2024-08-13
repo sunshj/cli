@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { getPkgJSON, patchUpdate } from '../../utils'
+import { getPkgJSON, patchUpdate } from '#utils'
 
 export async function configurePrettier() {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())

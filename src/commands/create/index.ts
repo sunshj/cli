@@ -2,8 +2,8 @@ import path from 'node:path'
 import process from 'node:process'
 import { defineCommand } from 'citty'
 import consola from 'consola'
-import { repos } from '../constants'
-import { checkExists } from '../utils'
+import { repos } from '#constants'
+import { checkExists } from '#utils'
 import { createProject, inputTemplateRepo, selectFramework, selectTemplate } from './step'
 
 export const createProjectCommand = defineCommand({
@@ -21,7 +21,7 @@ export const createProjectCommand = defineCommand({
     },
     custom: {
       type: 'boolean',
-      description: 'Custom template (github repo)',
+      description: 'Use custom template (github repo)',
       alias: 'c',
       default: false
     }

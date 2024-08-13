@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import { getPkgJSON, getVSCodeSettings, patchUpdate } from '../../utils'
+import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
 
 export async function configureESLint() {
   const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())
-  vscodeSettings['eslint.experimental.useFlatConfig'] = true
-  vscodeSettings['eslint.validate'] = [
+  patchUpdate(vscodeSettings, 'eslint.experimental.useFlatConfig', true)
+  patchUpdate(vscodeSettings, 'eslint.validate', [
     'javascript',
     'javascriptreact',
     'typescript',
@@ -16,7 +16,8 @@ export async function configureESLint() {
     'json',
     'jsonc',
     'yaml'
-  ]
+  ])
+
   await saveVscodeSettings()
 
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())

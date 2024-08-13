@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { getPkgJSON, getVSCodeSettings, patchUpdate } from '../../utils'
+import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
 
 export async function configureStyleLint() {
   const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())

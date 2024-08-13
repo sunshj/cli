@@ -8,7 +8,8 @@ function capitalize<T extends string>(str: T) {
 
 export async function getJSONFile<T extends string = ''>(filepath: string, namespace?: T) {
   const fileContent = await ensureReadFile(filepath, '{}')
-  const json = JSON.parse(fileContent)
+  const REPLACE_COMMENT_REGEX = /\/\/.*\n\s+|\/\*\*.*\*\//g
+  const json = JSON.parse(fileContent.replaceAll(REPLACE_COMMENT_REGEX, ''))
 
   const save = async (jsonObj?: Record<string, any>) => {
     await fs.writeFile(filepath, JSON.stringify(jsonObj ?? json, null, 2))

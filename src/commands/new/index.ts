@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import process from 'node:process'
 import { defineCommand } from 'citty'
 import consola from 'consola'
-import { checkExists } from '../utils'
+import { checkExists } from '#utils'
 import {
   configureProject,
   getTemplateName,

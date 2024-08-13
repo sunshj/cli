@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import { getJsconfig, getPkgJSON, patchUpdate } from '../../utils'
+import { getJsconfig, getPkgJSON, patchUpdate } from '#utils'
 
 export type ModuleType = 'module' | 'commonjs'
 export { selectModuleType } from './select-type'
