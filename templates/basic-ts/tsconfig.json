@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "./dist"
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"]
 }
