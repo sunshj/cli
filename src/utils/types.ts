@@ -5,3 +5,5 @@ export type Trim<T> = T extends `${Whitespace}${infer U}`
   : T extends `${infer U}${Whitespace}`
     ? Trim<U>
     : T
+
+export type ModuleType = 'module' | 'commonjs'

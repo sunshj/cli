@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
 import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
+import type { ModuleType } from '#utils/types'
 
 export async function configureESLint() {
   const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())
-  patchUpdate(vscodeSettings, 'eslint.experimental.useFlatConfig', true)
   patchUpdate(vscodeSettings, 'eslint.validate', [
     'javascript',
     'javascriptreact',
@@ -21,26 +21,18 @@ export async function configureESLint() {
   await saveVscodeSettings()
 
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
-  const pkgType = pkgJSON.type ?? 'commonjs'
-  if (pkgType === 'module') {
-    await fs.writeFile(
-      'eslint.config.js',
-      `import { defineConfig } from '@sunshj/eslint-config'
+  const pkgType: ModuleType = pkgJSON.type ?? 'commonjs'
+  const configFileName = pkgType === 'module' ? 'eslint.config.js' : 'eslint.config.mjs'
+
+  await fs.writeFile(
+    configFileName,
+    `import { defineConfig } from '@sunshj/eslint-config'
     
   export default defineConfig({})
     `,
-      'utf-8'
-    )
-  } else {
-    await fs.writeFile(
-      'eslint.config.js',
-      `const { defineConfig } = require('@sunshj/eslint-config')
-    
-  module.exports = defineConfig({})
-    `,
-      'utf-8'
-    )
-  }
+    'utf-8'
+  )
+
   patchUpdate(pkgJSON, 'scripts', { lint: 'eslint .' })
   await savePkgJSON()
 }

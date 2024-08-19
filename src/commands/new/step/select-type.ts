@@ -1,5 +1,5 @@
 import inquirer from 'inquirer'
-import type { ModuleType } from '.'
+import type { ModuleType } from '#utils/types'
 
 export async function selectModuleType() {
   return await inquirer.prompt<{ type: ModuleType }>({
