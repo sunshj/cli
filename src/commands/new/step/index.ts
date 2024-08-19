@@ -1,5 +1,5 @@
-import path from 'node:path'
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import process from 'node:process'
 import { getJsconfig, getPkgJSON, patchUpdate } from '#utils'
 
@@ -9,7 +9,8 @@ export { selectModuleAlias } from './select-alias'
 export { selectTypeScript } from './select-ts'
 export { getTemplateName } from './get-template'
 
-const IMPORT_STATEMENT_REGEX = /import\s+.*\s+from\s["'](.*)["']/g
+const IMPORT_STATEMENT_REGEX =
+  /import(?:\s+\S.*(?:[\n\r\u2028\u2029]\s*|[\t\v\f \u00A0\u1680\u2000-\u200A\u202F\u205F\u3000\uFEFF])|\s{2,})from\s["'](.*)["']/g
 const REQUIRE_STATEMENT_REGEX = /require\s*\(\s*["'](.*)["']\s*\)/g
 
 export async function configureProject(

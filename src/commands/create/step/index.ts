@@ -1,5 +1,5 @@
-import path from 'node:path'
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
 import { downloadGithubRepo, getPkgJSON, spinner } from '#utils'

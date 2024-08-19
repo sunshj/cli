@@ -1,16 +1,18 @@
 import process from 'node:process'
 import consola from 'consola'
+import { ALLOW_ARGS, ALLOW_CONFIGS, INSTALL_CONFIGS } from '#constants'
 import { execShell, spinner } from '#utils'
-import { ALLOW_ARGS, ALLOW_CONFIGS, CONFIG_INSTALL_MAP } from '#constants'
+import { configureCommitLint } from './commitlint'
 import { configureESLint } from './eslint'
+import { configureLintStaged } from './lint-staged'
 import { configurePrettier } from './prettier'
 import { configureStyleLint } from './stylelint'
-import { configureLintStaged } from './lint-staged'
-import { configureCommitLint } from './commitlint'
 
 export { configureGitAttributes } from './git-attributes'
 export { selectTools } from './select-tools'
 export { selectPackageManager } from './select-pkg-manager'
+
+const installConfigMap = new Map(Object.entries(INSTALL_CONFIGS))
 
 export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
   const data = Object.keys(pkgs).filter(pkg => pkgs[pkg])
@@ -27,7 +29,7 @@ export async function configureProject(
   isWorkspace: boolean
 ) {
   spinner.start(`Installing ${configPkg}...\n`)
-  const installPkgs = CONFIG_INSTALL_MAP.get(configPkg)!
+  const installPkgs = installConfigMap.get(configPkg)!
 
   const installed = await execShell(pkgManager, [
     'install',

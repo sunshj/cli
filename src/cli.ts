@@ -2,10 +2,10 @@ import { defineCommand } from 'citty'
 import consola from 'consola'
 import { colors } from 'consola/utils'
 import { version as pkgVersion } from '../package.json'
-import { CLI_NAME } from './constants'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
 import { newProjectCommand } from './commands/new'
+import { CLI_NAME } from './constants'
 
 export const main = defineCommand({
   meta: {

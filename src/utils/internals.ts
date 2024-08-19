@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
-import { ensureReadFile } from '.'
 import type { Trim } from './types'
+import { ensureReadFile } from '.'
 
 function capitalize<T extends string>(str: T) {
   return (str?.charAt(0).toUpperCase() + str?.slice(1)) as Capitalize<T>
