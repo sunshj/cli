@@ -98,3 +98,7 @@ export function execShell(command: string, args: string[]) {
     })
   })
 }
+
+export function compareVersions(a: string, b: string) {
+  return a.localeCompare(b, 'en-US', { numeric: true })
+}

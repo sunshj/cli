@@ -2,6 +2,7 @@ import { defineCommand } from 'citty'
 import consola from 'consola'
 import { colors } from 'consola/utils'
 import { getLatestVersion } from 'fast-npm-meta'
+import { compareVersions } from '#utils'
 import { name as pkgName, version as pkgVersion } from '../package.json'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
@@ -10,7 +11,8 @@ import { CLI_NAME } from './constants'
 
 async function checkForUpdate() {
   const { version } = await getLatestVersion(`${pkgName}@latest`)
-  if (version !== pkgVersion) {
+  const comparison = compareVersions(version!, pkgVersion)
+  if (comparison === -1) {
     consola.warn(colors.yellow(`New version is available: v${version}`))
   }
 }
