@@ -1,12 +1,19 @@
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { colors } from 'consola/utils'
-import { execShellSync } from '#utils'
+import { getLatestVersion } from 'fast-npm-meta'
 import { name as pkgName, version as pkgVersion } from '../package.json'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
 import { newProjectCommand } from './commands/new'
 import { CLI_NAME } from './constants'
+
+async function checkForUpdate() {
+  const { version } = await getLatestVersion(`${pkgName}@latest`)
+  if (version !== pkgVersion) {
+    consola.warn(colors.yellow(`New version is available: v${version}`))
+  }
+}
 
 export const main = defineCommand({
   meta: {
@@ -22,10 +29,7 @@ export const main = defineCommand({
   },
 
   run() {
-    const latestVersion = execShellSync(`npm show ${pkgName} version`)
-    if (latestVersion !== pkgVersion) {
-      consola.warn(colors.yellow(`New version is available: v${latestVersion}`))
-    }
+    checkForUpdate()
     consola.box(
       colors.bgBlue(`${CLI_NAME}-cli v${pkgVersion}`),
       `\nCLI tool for simplifying project creation and configuration`

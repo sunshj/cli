@@ -1,4 +1,4 @@
-import { execSync, spawn } from 'node:child_process'
+import { spawn } from 'node:child_process'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
@@ -97,8 +97,4 @@ export function execShell(command: string, args: string[]) {
       reject(new Error('Exited'))
     })
   })
-}
-
-export function execShellSync(command: string) {
-  return execSync(command).toString('utf-8').trim()
 }
