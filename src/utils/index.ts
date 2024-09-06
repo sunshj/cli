@@ -1,27 +1,22 @@
 import { spawn } from 'node:child_process'
-import fs from 'node:fs/promises'
+import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import ora from 'ora'
 import { getJSONFile } from './internals'
 
-export async function checkExists(p: string) {
-  try {
-    await fs.access(p, fs.constants.F_OK)
-    return true
-  } catch {
-    return false
-  }
+export function unique<T>(array: T[]) {
+  return [...new Set(array)]
 }
 
 export async function ensureReadFile(file: string, defaultContent = '') {
-  const exists = await checkExists(file)
+  const exists = existsSync(file)
   if (!exists) {
     await fs.mkdir(path.dirname(file), { recursive: true })
     await fs.writeFile(file, defaultContent)
   }
-  const filecontent = await fs.readFile(file, 'utf-8')
-  return filecontent.trim() || defaultContent
+  const fileContent = await fs.readFile(file, 'utf-8')
+  return fileContent.trim() || defaultContent
 }
 
 export const spinner = ora('[Downloading template]: ')
@@ -38,12 +33,9 @@ export async function getJsconfig(dir: string) {
   return await getJSONFile(path.resolve(dir, 'jsconfig.json'), 'jsconfig')
 }
 
-/**
- * 更新package.json的属性
- */
-export function patchUpdate(obj: Record<string, any>, key: string, value: any) {
+export function objectPatchUpdate(obj: Record<string, any>, key: string, value: any) {
   if (Array.isArray(value)) {
-    obj[key] = [...(obj[key] ?? []), ...value]
+    obj[key] = unique([...(obj[key] ?? []), ...value])
   } else if (typeof value === 'object' && value !== null) {
     obj[key] = { ...(obj[key] ?? {}), ...value }
   } else {
@@ -56,8 +48,8 @@ export function downloadGithubRepo(repoName: string, dir: string) {
   return execShell('git', ['clone', `https://github.com/${repoName}.git`, dir])
 }
 
-export async function getPackageManager(dir: string) {
-  const hasPnpm = await checkExists(path.resolve(dir, 'pnpm-lock.yaml'))
+export function getPackageManager(dir: string) {
+  const hasPnpm = existsSync(path.resolve(dir, 'pnpm-lock.yaml'))
 
   if (hasPnpm) return 'pnpm'
   return 'npm'

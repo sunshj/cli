@@ -1,10 +1,10 @@
+import { existsSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { defineCommand } from 'citty'
 import consola from 'consola'
-import { checkExists } from '#utils'
 import {
   configureProject,
   getTemplateName,
@@ -30,7 +30,7 @@ export const newProjectCommand = defineCommand({
   },
   async run({ args }) {
     const { projectName } = args
-    const isExisted = await checkExists(path.resolve(process.cwd(), projectName))
+    const isExisted = existsSync(path.resolve(process.cwd(), projectName))
     if (isExisted) {
       consola.error(`Directory ${projectName} is already exists.`)
       return

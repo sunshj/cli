@@ -8,7 +8,7 @@ export async function selectPackageManager() {
       name: 'packageManager',
       message: 'Which package manager do you want to use?',
       type: 'list',
-      default: await getPackageManager(process.cwd()),
+      default: getPackageManager(process.cwd()),
       choices: ['npm', 'pnpm']
     }
   ])

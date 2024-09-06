@@ -1,9 +1,9 @@
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '#constants'
-import { checkExists } from '#utils'
 import { createProject, inputTemplateRepo, selectFramework, selectTemplate } from './step'
 
 export const createProjectCommand = defineCommand({
@@ -29,7 +29,7 @@ export const createProjectCommand = defineCommand({
 
   async run({ args }) {
     const { projectName, custom } = args
-    const isExisted = await checkExists(path.resolve(process.cwd(), projectName))
+    const isExisted = existsSync(path.resolve(process.cwd(), projectName))
     if (isExisted) {
       consola.error(`Directory ${projectName} is already exists.`)
       return

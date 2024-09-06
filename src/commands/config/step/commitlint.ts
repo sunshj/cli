@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
-import { execShell, getPkgJSON, patchUpdate } from '#utils'
+import { execShell, getPkgJSON, objectPatchUpdate } from '#utils'
 
 export async function configureCommitLint() {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
@@ -12,8 +12,8 @@ export async function configureCommitLint() {
     }
   }
 
-  patchUpdate(pkgJSON, 'scripts', { commit: 'git-cz' })
-  patchUpdate(pkgJSON, 'simple-git-hooks', {
+  objectPatchUpdate(pkgJSON, 'scripts', { commit: 'git-cz' })
+  objectPatchUpdate(pkgJSON, 'simple-git-hooks', {
     'commit-msg': 'npx --no-install commitlint --config commitlint.config.js --edit $1'
   })
 

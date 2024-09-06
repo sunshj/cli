@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import { getJsconfig, getPkgJSON, patchUpdate } from '#utils'
+import { getJsconfig, getPkgJSON, objectPatchUpdate } from '#utils'
 import type { ModuleType } from '#utils/types'
 
 export { selectModuleType } from './select-type'
@@ -48,7 +48,7 @@ export async function configureProject(
 
   const { jsconfig, saveJsconfig } = await getJsconfig(path.join(process.cwd(), projectName))
   if (alias) {
-    patchUpdate(jsconfig, 'compilerOptions', {
+    objectPatchUpdate(jsconfig, 'compilerOptions', {
       baseUrl: '.',
       paths: {
         '#*': ['./src/*']

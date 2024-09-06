@@ -1,13 +1,13 @@
 import process from 'node:process'
 import consola from 'consola'
-import { execShell, getPkgJSON, patchUpdate } from '#utils'
+import { execShell, getPkgJSON, objectPatchUpdate } from '#utils'
 
 export async function configureLintStaged() {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
-  patchUpdate(pkgJSON, 'lint-staged', {
+  objectPatchUpdate(pkgJSON, 'lint-staged', {
     'src/**/*.{vue,js,ts,jsx,tsx}': ['eslint --fix', 'prettier --write']
   })
-  patchUpdate(pkgJSON, 'simple-git-hooks', { 'pre-commit': 'npx lint-staged' })
+  objectPatchUpdate(pkgJSON, 'simple-git-hooks', { 'pre-commit': 'npx lint-staged' })
   await savePkgJSON()
 
   const prepare = await execShell('npx', ['simple-git-hooks'])
