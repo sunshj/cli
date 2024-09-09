@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises'
-import { parse } from 'jsonc-parser'
+import JSONC from 'jsonc-parser'
 import type { Trim } from './types'
 import { ensureReadFile } from '.'
 
@@ -7,13 +7,9 @@ function capitalize<T extends string>(str: T) {
   return (str?.charAt(0).toUpperCase() + str?.slice(1)) as Capitalize<T>
 }
 
-function parseJSONC<T>(text: string) {
-  return parse(text) as T
-}
-
 export async function getJSONFile<T extends string = ''>(filepath: string, namespace?: T) {
   const fileContent = await ensureReadFile(filepath, '{}')
-  const json = parseJSONC<Record<string, any>>(fileContent)
+  const json: Record<string, any> = JSONC.parse(fileContent)
 
   const save = async (jsonObj?: Record<string, any>) => {
     await fs.writeFile(filepath, JSON.stringify(jsonObj ?? json, null, 2))

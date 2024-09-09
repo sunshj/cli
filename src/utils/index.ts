@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
+import consola from 'consola'
 import ora from 'ora'
 import { getJSONFile } from './internals'
 
@@ -19,7 +20,7 @@ export async function ensureReadFile(file: string, defaultContent = '') {
   return fileContent.trim() || defaultContent
 }
 
-export const spinner = ora('[Downloading template]: ')
+export const spinner = ora('[Downloading]: ')
 
 export async function getPkgJSON(dir: string) {
   return await getJSONFile(path.resolve(dir, 'package.json'), 'pkgJSON')
@@ -93,4 +94,24 @@ export function execShell(command: string, args: string[]) {
 
 export function compareVersions(a: string, b: string) {
   return a.localeCompare(b, 'en-US', { numeric: true })
+}
+
+export async function deleteGitFolder(projName: string) {
+  const gitFolderPath = path.resolve(process.cwd(), projName, '.git')
+  try {
+    await fs.rm(gitFolderPath, { recursive: true, maxRetries: 3 })
+  } catch (error: any) {
+    consola.error(`Failed to delete .git folder: ${error.message}`)
+  }
+}
+
+export async function updatePkgName(projName: string) {
+  try {
+    const { pkgJSON, savePkgJSON } = await getPkgJSON(path.resolve(process.cwd(), projName))
+    pkgJSON.name = projName
+    await savePkgJSON()
+    consola.success(`Successfully updated 'name' field in package.json to ${projName}`)
+  } catch (error: any) {
+    consola.error(`Failed to update 'name' field in package.json: ${error.message}`)
+  }
 }

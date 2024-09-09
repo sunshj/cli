@@ -4,7 +4,7 @@ import process from 'node:process'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '#constants'
-import { createProject, inputTemplateRepo, selectFramework, selectTemplate } from './step'
+import { createProject, selectFramework, selectTemplate } from './step'
 
 export const createProjectCommand = defineCommand({
   meta: {
@@ -18,26 +18,14 @@ export const createProjectCommand = defineCommand({
       description: 'The name of the project to create',
       required: true,
       default: 'my-project'
-    },
-    custom: {
-      type: 'boolean',
-      description: 'Use custom template (github repo)',
-      alias: 'c',
-      default: false
     }
   },
 
   async run({ args }) {
-    const { projectName, custom } = args
+    const { projectName } = args
     const isExisted = existsSync(path.resolve(process.cwd(), projectName))
     if (isExisted) {
       consola.error(`Directory ${projectName} is already exists.`)
-      return
-    }
-
-    if (custom) {
-      const { templateRepo } = await inputTemplateRepo()
-      await createProject(projectName, templateRepo)
       return
     }
 

@@ -6,6 +6,7 @@ import { compareVersions } from '#utils'
 import { name as pkgName, version as pkgVersion } from '../package.json'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
+import { getRepoCommand } from './commands/get'
 import { newProjectCommand } from './commands/new'
 import { CLI_NAME } from './constants'
 
@@ -27,7 +28,8 @@ export const main = defineCommand({
   subCommands: {
     create: createProjectCommand,
     config: configureProjectCommand,
-    new: newProjectCommand
+    new: newProjectCommand,
+    get: getRepoCommand
   },
 
   run() {
