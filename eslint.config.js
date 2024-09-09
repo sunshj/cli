@@ -1,5 +1,12 @@
 import { defineConfig } from '@sunshj/eslint-config'
 
-export default defineConfig({
-  ignores: ['templates/**/*.{js,ts}']
-})
+export default defineConfig([
+  {
+    rules: {
+      'no-console': 'error'
+    }
+  },
+  {
+    ignores: ['templates/**/*.{js,ts}']
+  }
+])

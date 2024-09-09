@@ -45,8 +45,9 @@ export function objectPatchUpdate(obj: Record<string, any>, key: string, value: 
   return obj
 }
 
-export function downloadGithubRepo(repoName: string, dir: string) {
-  return execShell('git', ['clone', `https://github.com/${repoName}.git`, dir])
+export function downloadGithubRepo(repoName: string, branch: string, dir: string) {
+  const branchArg = branch ? ['-b', branch] : []
+  return execShell('git', ['clone', ...branchArg, `https://github.com/${repoName}.git`, dir])
 }
 
 export function getPackageManager(dir: string) {
@@ -100,6 +101,7 @@ export async function deleteGitFolder(projName: string) {
   const gitFolderPath = path.resolve(process.cwd(), projName, '.git')
   try {
     await fs.rm(gitFolderPath, { recursive: true, maxRetries: 3 })
+    consola.success(`Successfully deleted .git folder`)
   } catch (error: any) {
     consola.error(`Failed to delete .git folder: ${error.message}`)
   }

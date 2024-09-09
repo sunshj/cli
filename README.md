@@ -6,21 +6,20 @@ npm i sunshj -g
 sun --version
 ```
 
-## 创建项目(github模版)
+## 创建预设github模板
 
 ```bash
 sun create my-app
 ```
 
-模板资源
+## 克隆项目
 
-> [https://github.com/sunshj/vue3-ts-starter](https://github.com/sunshj/vue3-ts-starter)
+```bash
+sun get sunshj/vue3-ts-starter
 
-> [https://github.com/sunshj/uniapp-ts-starter](https://github.com/sunshj/uniapp-ts-starter)
-
-> [https://github.com/sunshj/express-starter](https://github.com/sunshj/express-starter)
-
-> [https://github.com/sunshj/nest-starter](https://github.com/sunshj/nest-starter)
+#or
+sun get sunshj/vue3-ts-starter#main my-app
+```
 
 ## 项目配置
 
@@ -31,7 +30,7 @@ sun config
 sun config --eslint --prettier --stylelint --lintStaged --commitlint -w
 ```
 
-## 创建Node.js项目
+## 创建Node.js项目(本地模版)
 
 ```bash
 sun new my-app

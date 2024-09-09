@@ -7,15 +7,17 @@ import { deleteGitFolder, downloadGithubRepo, spinner, updatePkgName } from '#ut
 export { selectFramework } from './select-framework'
 export { selectTemplate } from './select-template'
 
-export async function createProject(projectName: string, repoName: string) {
-  await fs.mkdir(path.join(process.cwd(), projectName), { recursive: true })
+export async function createProject(projectName: string, rawRepoName: string) {
+  const [repoName, branch] = rawRepoName.split('#')
+  const projectPath = path.join(process.cwd(), projectName)
+  await fs.mkdir(projectPath)
 
   spinner.start()
 
-  const isDownloaded = await downloadGithubRepo(repoName, path.join(process.cwd(), projectName))
+  const isDownloaded = await downloadGithubRepo(repoName, branch, projectPath)
     .catch(error => {
       spinner.fail(`Failed to clone repository: ${error.message}`)
-      fs.rmdir(projectName)
+      return false
     })
     .finally(() => {
       spinner.stop()
@@ -29,5 +31,7 @@ export async function createProject(projectName: string, repoName: string) {
     consola.info(`Now run the following commands:
       cd ${projectName} 
       npm install`)
+  } else {
+    await fs.rmdir(projectPath, { maxRetries: 3 })
   }
 }

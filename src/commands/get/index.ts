@@ -23,7 +23,8 @@ export const getRepoCommand = defineCommand({
   },
   setup({ args }) {
     if (!args.projectName) {
-      args.projectName = args.repoName.split('/').at(-1)!
+      const [repoName] = args.repoName.split('#')
+      args.projectName = repoName.split('/').at(-1)!
     }
   },
   async run({ args }) {
