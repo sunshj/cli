@@ -3,7 +3,8 @@ export const CLI_NAME = 'sun'
 export enum Frameworks {
   VueJS = 'vue.js',
   ExpressJS = 'express.js',
-  NestJS = 'nest.js'
+  NestJS = 'nest.js',
+  Lib = 'lib'
 }
 
 export const repos = [
@@ -26,6 +27,11 @@ export const repos = [
     cate: Frameworks.NestJS,
     name: 'nest + prisma',
     repo: 'sunshj/nest-starter'
+  },
+  {
+    cate: Frameworks.Lib,
+    name: 'ts-lib',
+    repo: 'sunshj/ts-starter'
   }
 ]
 

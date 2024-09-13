@@ -7,9 +7,7 @@ export async function selectTemplate(framework: string) {
       name: 'template',
       message: `Which ${framework} template do you want to use?`,
       type: 'list',
-      choices: repos
-        .filter(({ name }) => name.includes(framework.slice(0, framework.lastIndexOf('.'))))
-        .map(({ name }) => ({ name }))
+      choices: repos.filter(v => v.cate === framework).map(({ name }) => ({ name }))
     }
   ])
 }
