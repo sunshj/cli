@@ -93,6 +93,11 @@ export function execShell(command: string, args: string[]) {
   })
 }
 
+/**
+ *
+ * @param a latest version
+ * @param b current version
+ */
 export function compareVersions(a: string, b: string) {
   return a.localeCompare(b, 'en-US', { numeric: true })
 }
