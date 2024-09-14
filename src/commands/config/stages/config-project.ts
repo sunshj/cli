@@ -8,10 +8,6 @@ import { configureLintStaged } from './lint-staged'
 import { configurePrettier } from './prettier'
 import { configureStyleLint } from './stylelint'
 
-export { configureGitAttributes } from './git-attributes'
-export { selectTools } from './select-tools'
-export { selectPackageManager } from './select-pkg-manager'
-
 const installConfigMap = new Map(Object.entries(INSTALL_CONFIGS))
 
 export function transformConfigurePkgs(pkgs: Record<string, boolean>) {

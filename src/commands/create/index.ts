@@ -4,7 +4,9 @@ import process from 'node:process'
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { repos } from '#constants'
-import { createProject, selectFramework, selectTemplate } from './step'
+import { createProject } from './stages/create-project'
+import { selectFramework } from './stages/select-framework'
+import { selectTemplate } from './stages/select-template'
 
 export const createProjectCommand = defineCommand({
   meta: {

@@ -4,11 +4,6 @@ import process from 'node:process'
 import { getJsconfig, getPkgJSON, objectPatchUpdate } from '#utils'
 import type { ModuleType } from '#utils/types'
 
-export { selectModuleType } from './select-type'
-export { selectModuleAlias } from './select-alias'
-export { selectTypeScript } from './select-ts'
-export { getTemplateName } from './get-template'
-
 const IMPORT_STATEMENT_REGEX =
   /import(?:\s+\S.*(?:[\n\r\u2028\u2029]\s*|[\t\v\f \u00A0\u1680\u2000-\u200A\u202F\u205F\u3000\uFEFF])|\s{2,})from\s["'](.*)["']/g
 const REQUIRE_STATEMENT_REGEX = /require\s*\(\s*["'](.*)["']\s*\)/g

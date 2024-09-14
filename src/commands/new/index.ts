@@ -5,13 +5,11 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { defineCommand } from 'citty'
 import consola from 'consola'
-import {
-  configureProject,
-  getTemplateName,
-  selectModuleAlias,
-  selectModuleType,
-  selectTypeScript
-} from './step'
+import { configureProject } from './stages/config-project'
+import { getTemplateName } from './stages/get-template'
+import { selectModuleAlias } from './stages/select-alias'
+import { selectTypeScript } from './stages/select-ts'
+import { selectModuleType } from './stages/select-type'
 
 const __filename = fileURLToPath(import.meta.url)
 

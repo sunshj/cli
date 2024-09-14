@@ -4,9 +4,6 @@ import process from 'node:process'
 import consola from 'consola'
 import { deleteGitFolder, downloadGithubRepo, spinner, updatePkgName } from '#utils'
 
-export { selectFramework } from './select-framework'
-export { selectTemplate } from './select-template'
-
 export async function createProject(projectName: string, rawRepoName: string) {
   const [repoName, branch] = rawRepoName.split('#')
   const projectPath = path.join(process.cwd(), projectName)

@@ -39,7 +39,7 @@ export const ALLOW_CONFIGS = ['eslint', 'prettier', 'stylelint', 'lintStaged', '
 export const ALLOW_ARGS = [...ALLOW_CONFIGS, 'workspace', 'w']
 
 export const INSTALL_CONFIGS = {
-  eslint: ['eslint@9', '@sunshj/eslint-config@2'],
+  eslint: ['eslint@9.10.0', '@sunshj/eslint-config@latest'],
   prettier: ['prettier', '@sunshj/prettier-config@latest'],
   stylelint: ['stylelint@16', '@sunshj/stylelint-config@latest'],
   lintStaged: ['lint-staged@15', 'simple-git-hooks'],

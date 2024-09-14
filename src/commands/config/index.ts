@@ -1,13 +1,10 @@
 import { defineCommand } from 'citty'
 import consola from 'consola'
 import { colors } from 'consola/utils'
-import {
-  configureGitAttributes,
-  configureProject,
-  selectPackageManager,
-  selectTools,
-  transformConfigurePkgs
-} from './step'
+import { configureProject, transformConfigurePkgs } from './stages/config-project'
+import { configureGitAttributes } from './stages/git-attributes'
+import { selectPackageManager } from './stages/select-pkg-manager'
+import { selectTools } from './stages/select-tools'
 
 export const configureProjectCommand = defineCommand({
   meta: {
