@@ -68,7 +68,7 @@ export const configureProjectCommand = defineCommand({
     await configureGitAttributes()
 
     for (const pkg of configurePkgs) {
-      await configureProject(pkg, packageManager, workspace)
+      await configureProject(pkg, configurePkgs, packageManager, workspace)
     }
   }
 })

@@ -9,8 +9,7 @@ export async function configureStyleLint() {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
   pkgJSON.stylelint = { extends: '@sunshj/stylelint-config' }
   objectPatchUpdate(pkgJSON, 'scripts', {
-    stylelint:
-      'stylelint --cache --fix "src/**/*.{vue,css,scss}" --cache --cache-location node_modules/.cache/stylelint/'
+    stylelint: 'stylelint --fix "src/**/*.{vue,css,scss}" --cache'
   })
   await savePkgJSON()
 }

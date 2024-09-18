@@ -13,3 +13,4 @@ example-app
 *.njsproj
 *.sln
 *.sw?
+.eslintcache

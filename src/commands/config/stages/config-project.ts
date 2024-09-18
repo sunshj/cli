@@ -21,6 +21,7 @@ export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
 
 export async function configureProject(
   configPkg: string,
+  configurePkgs: string[],
   pkgManager: string,
   isWorkspace: boolean
 ) {
@@ -42,7 +43,7 @@ export async function configureProject(
     if (configPkg === 'eslint') await configureESLint()
     if (configPkg === 'prettier') await configurePrettier()
     if (configPkg === 'stylelint') await configureStyleLint()
-    if (configPkg === 'lintStaged') await configureLintStaged()
+    if (configPkg === 'lintStaged') await configureLintStaged(configurePkgs)
     if (configPkg === 'commitlint') await configureCommitLint()
   }
 }

@@ -23,9 +23,9 @@
     "start:new": "tsup --silent --onSuccess \"node dist/index.js new example-app\"",
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm build",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "format": "prettier --write .",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix --cache",
+    "format": "prettier . --write",
     "commit": "git-cz"
   },
   "dependencies": {
@@ -60,8 +60,8 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "eslint --fix .",
-      "prettier --write ."
+      "eslint --fix",
+      "prettier --write"
     ]
   },
   "imports": {

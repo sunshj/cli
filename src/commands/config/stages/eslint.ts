@@ -33,6 +33,9 @@ export async function configureESLint() {
     'utf-8'
   )
 
-  objectPatchUpdate(pkgJSON, 'scripts', { lint: 'eslint .', 'lint:fix': 'eslint . --fix' })
+  objectPatchUpdate(pkgJSON, 'scripts', {
+    lint: 'eslint . --cache',
+    'lint:fix': 'eslint . --fix --cache'
+  })
   await savePkgJSON()
 }
