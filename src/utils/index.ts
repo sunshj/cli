@@ -95,11 +95,11 @@ export function execShell(command: string, args: string[]) {
 
 /**
  *
- * @param a latest version
- * @param b current version
+ * @param latest latest version
+ * @param current current version
  */
-export function compareVersions(a: string, b: string) {
-  return a.localeCompare(b, 'en-US', { numeric: true })
+export function compareVersions(latest: string, current: string) {
+  return latest.localeCompare(current, 'en-US', { numeric: true })
 }
 
 export async function deleteGitFolder(projName: string) {

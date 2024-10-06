@@ -1,9 +1,8 @@
 export const CLI_NAME = 'sun'
 
 export enum Frameworks {
-  VueJS = 'vue.js',
-  ExpressJS = 'express.js',
-  NestJS = 'nest.js',
+  VueJS = 'Vue.js',
+  NestJS = 'NestJS',
   Lib = 'lib'
 }
 
@@ -15,13 +14,8 @@ export const repos = [
   },
   {
     cate: Frameworks.VueJS,
-    name: 'vue3 + ts + uni-app',
-    repo: 'sunshj/uniapp-ts-starter'
-  },
-  {
-    cate: Frameworks.ExpressJS,
-    name: 'express + prisma',
-    repo: 'sunshj/express-starter'
+    name: 'vue3 + ts + i18n',
+    repo: 'sunshj/vue3-ts-starter#i18n'
   },
   {
     cate: Frameworks.NestJS,
