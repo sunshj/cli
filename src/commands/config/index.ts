@@ -3,7 +3,6 @@ import consola from 'consola'
 import { colors } from 'consola/utils'
 import { configureProject, transformConfigurePkgs } from './stages/config-project'
 import { configureGitAttributes } from './stages/git-attributes'
-import { selectPackageManager } from './stages/select-pkg-manager'
 import { selectTools } from './stages/select-tools'
 
 export const configureProjectCommand = defineCommand({
@@ -62,13 +61,12 @@ export const configureProjectCommand = defineCommand({
     }
 
     consola.success('Selected tools:', colors.blueBright(configurePkgs.join(', ')))
-    consola.info('Monorepo Project:', colors.blueBright(workspace.toString()))
-    const { packageManager } = await selectPackageManager()
+    consola.info('Using workspace:', colors.blueBright(workspace.toString()))
 
     await configureGitAttributes()
 
     for (const pkg of configurePkgs) {
-      await configureProject(pkg, configurePkgs, packageManager, workspace)
+      await configureProject(pkg, configurePkgs, workspace)
     }
   }
 })

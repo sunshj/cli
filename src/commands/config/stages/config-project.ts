@@ -1,7 +1,8 @@
 import process from 'node:process'
 import consola from 'consola'
+import { addDevDependency } from 'nypm'
 import { ALLOW_ARGS, ALLOW_CONFIGS, INSTALL_CONFIGS } from '#constants'
-import { execShell, spinner } from '#utils'
+import { spinner } from '#utils'
 import { configureCommitLint } from './commitlint'
 import { configureESLint } from './eslint'
 import { configureLintStaged } from './lint-staged'
@@ -22,28 +23,23 @@ export function transformConfigurePkgs(pkgs: Record<string, boolean>) {
 export async function configureProject(
   configPkg: string,
   configurePkgs: string[],
-  pkgManager: string,
   isWorkspace: boolean
 ) {
   spinner.start(`Installing ${configPkg}...\n`)
   const installPkgs = installConfigMap.get(configPkg)!
 
-  const installed = await execShell(pkgManager, [
-    'install',
-    ...installPkgs,
-    '-D',
-    isWorkspace ? '-w' : ''
-  ]).catch((error: any) => {
+  await addDevDependency(installPkgs, {
+    silent: true,
+    workspace: isWorkspace
+  }).catch(error => {
     spinner.fail(`${configPkg} installation failed: ${error.message}`)
     process.exit(1)
   })
 
-  if (installed) {
-    spinner.succeed(`${configPkg} installed successfully`)
-    if (configPkg === 'eslint') await configureESLint()
-    if (configPkg === 'prettier') await configurePrettier()
-    if (configPkg === 'stylelint') await configureStyleLint()
-    if (configPkg === 'lintStaged') await configureLintStaged(configurePkgs)
-    if (configPkg === 'commitlint') await configureCommitLint()
-  }
+  spinner.succeed(`${configPkg} installed successfully`)
+  if (configPkg === 'eslint') await configureESLint()
+  if (configPkg === 'prettier') await configurePrettier()
+  if (configPkg === 'stylelint') await configureStyleLint()
+  if (configPkg === 'lintStaged') await configureLintStaged(configurePkgs)
+  if (configPkg === 'commitlint') await configureCommitLint()
 }

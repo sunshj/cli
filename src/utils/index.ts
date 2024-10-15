@@ -50,13 +50,6 @@ export function downloadGithubRepo(repoName: string, branch: string, dir: string
   return execShell('git', ['clone', ...branchArg, `https://github.com/${repoName}.git`, dir])
 }
 
-export function getPackageManager(dir: string) {
-  const hasPnpm = existsSync(path.resolve(dir, 'pnpm-lock.yaml'))
-
-  if (hasPnpm) return 'pnpm'
-  return 'npm'
-}
-
 export function execShell(command: string, args: string[]) {
   const cmd = spawn(command, args, { stdio: 'inherit', shell: true })
 

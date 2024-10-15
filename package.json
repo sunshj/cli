@@ -34,11 +34,12 @@
     "fast-npm-meta": "^0.2.2",
     "inquirer": "^9.2.17",
     "jsonc-parser": "^3.3.1",
+    "nypm": "^0.3.12",
     "ora": "^8.0.1"
   },
   "devDependencies": {
     "@sunshj/commitlint-config": "^1.0.0",
-    "@sunshj/eslint-config": "2.1.0",
+    "@sunshj/eslint-config": "2.1.2",
     "@sunshj/prettier-config": "^1.0.0",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.12.2",
