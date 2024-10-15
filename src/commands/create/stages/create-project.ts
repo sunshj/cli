@@ -11,24 +11,21 @@ export async function createProject(projectName: string, rawRepoName: string) {
 
   spinner.start()
 
-  const isDownloaded = await downloadGithubRepo(repoName, branch, projectPath)
+  await downloadGithubRepo(repoName, branch, projectPath)
     .catch(error => {
       spinner.fail(`Failed to clone repository: ${error.message}`)
-      return false
+      fs.rmdir(projectPath, { maxRetries: 3 })
+      process.exit(1)
     })
     .finally(() => {
       spinner.stop()
     })
 
-  if (isDownloaded) {
-    spinner.succeed('Download template successfully.')
-    await updatePkgName(projectName)
-    await deleteGitFolder(projectName)
+  spinner.succeed('Download template successfully.')
+  await updatePkgName(projectName)
+  await deleteGitFolder(projectName)
 
-    consola.info(`Now run the following commands:
+  consola.info(`Now run the following commands:
       cd ${projectName} 
       npm install`)
-  } else {
-    await fs.rmdir(projectPath, { maxRetries: 3 })
-  }
 }

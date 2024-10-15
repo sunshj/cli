@@ -51,7 +51,7 @@ export function downloadGithubRepo(repoName: string, branch: string, dir: string
 }
 
 export function execShell(command: string, args: string[]) {
-  const cmd = spawn(command, args, { stdio: 'inherit', shell: true })
+  const cmd = spawn(command, args, { shell: true })
 
   return new Promise<boolean>((resolve, reject) => {
     cmd.on('close', code => {
@@ -76,6 +76,7 @@ export function execShell(command: string, args: string[]) {
     })
 
     process.on('SIGTERM', () => {
+      cmd.kill()
       reject(new Error('Terminated'))
     })
 
