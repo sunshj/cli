@@ -7,19 +7,19 @@ export async function configureLintStaged(configurePkgs: string[]) {
 
   if (configurePkgs.includes('eslint')) {
     objectPatchUpdate(pkgJSON, 'lint-staged', {
-      'src/**/*.{vue,js,ts,jsx,tsx}': ['eslint --fix']
+      '*.{vue,js,ts,jsx,tsx,json,md,yaml': ['eslint --fix']
     })
   }
 
   if (configurePkgs.includes('prettier')) {
     objectPatchUpdate(pkgJSON, 'lint-staged', {
-      '*.{js,jsx,ts,tsx,vue,json,css,scss,md}': ['prettier --write']
+      '*.{vue,js,ts,jsx,tsx,json,md,yaml': ['prettier --write']
     })
   }
 
   if (configurePkgs.includes('stylelint')) {
     objectPatchUpdate(pkgJSON, 'lint-staged', {
-      'src/**/*.{vue,css,scss}': ['stylelint --fix']
+      '*.{vue,css,scss}': ['stylelint --fix']
     })
   }
 
