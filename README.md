@@ -30,7 +30,7 @@ sun config
 sun config --eslint --prettier --stylelint --lintStaged --commitlint -w
 ```
 
-## 创建Node.js项目(本地模版)
+## 创建Node.js项目
 
 ```bash
 sun new my-app
