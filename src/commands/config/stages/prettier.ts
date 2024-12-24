@@ -1,9 +1,9 @@
 import process from 'node:process'
-import { getPkgJSON, objectPatchUpdate } from '#utils'
+import { getPkgJSON, patchUpdate } from '#utils'
 
 export async function configurePrettier() {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
   pkgJSON.prettier = '@sunshj/prettier-config'
-  objectPatchUpdate(pkgJSON, 'scripts', { format: 'prettier . --write' })
+  patchUpdate(pkgJSON, 'scripts', { format: 'prettier . --write' })
   await savePkgJSON()
 }

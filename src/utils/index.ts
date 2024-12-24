@@ -34,7 +34,7 @@ export async function getJsconfig(dir: string) {
   return await getJSONFile(path.resolve(dir, 'jsconfig.json'), 'jsconfig')
 }
 
-export function objectPatchUpdate(obj: Record<string, any>, key: string, value: any) {
+export function patchUpdate(obj: Record<string, any>, key: string, value: any) {
   if (Array.isArray(value)) {
     obj[key] = unique([...(obj[key] ?? []), ...value])
   } else if (typeof value === 'object' && value !== null) {

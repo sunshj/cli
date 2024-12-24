@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import { getJsconfig, getPkgJSON, objectPatchUpdate } from '#utils'
+import { getJsconfig, getPkgJSON, patchUpdate } from '#utils'
 import type { ModuleType } from '#utils/types'
 
 const IMPORT_STATEMENT_REGEX =
@@ -43,7 +43,7 @@ export async function configureProject(
 
   const { jsconfig, saveJsconfig } = await getJsconfig(path.join(process.cwd(), projectName))
   if (alias) {
-    objectPatchUpdate(jsconfig, 'compilerOptions', {
+    patchUpdate(jsconfig, 'compilerOptions', {
       baseUrl: '.',
       paths: {
         '#*': ['./src/*']

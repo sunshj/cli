@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { getPkgJSON, getVSCodeSettings, objectPatchUpdate } from '#utils'
+import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
 
 export async function configureStyleLint() {
   const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())
@@ -8,7 +8,7 @@ export async function configureStyleLint() {
 
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
   pkgJSON.stylelint = { extends: '@sunshj/stylelint-config' }
-  objectPatchUpdate(pkgJSON, 'scripts', {
+  patchUpdate(pkgJSON, 'scripts', {
     stylelint: 'stylelint --fix "src/**/*.{vue,css,scss}" --cache'
   })
   await savePkgJSON()

@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import { getPkgJSON, getVSCodeSettings, objectPatchUpdate } from '#utils'
+import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
 import type { ModuleType } from '#utils/types'
 
 export async function configureESLint() {
   const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())
-  objectPatchUpdate(vscodeSettings, 'eslint.validate', [
+  patchUpdate(vscodeSettings, 'eslint.validate', [
     'javascript',
     'javascriptreact',
     'typescript',
@@ -33,7 +33,7 @@ export async function configureESLint() {
     'utf-8'
   )
 
-  objectPatchUpdate(pkgJSON, 'scripts', {
+  patchUpdate(pkgJSON, 'scripts', {
     lint: 'eslint . --cache',
     'lint:fix': 'eslint . --fix --cache'
   })
