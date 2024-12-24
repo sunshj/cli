@@ -3,6 +3,7 @@ import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
+import { defu } from 'defu'
 import ora from 'ora'
 import { getJSONFile } from './internals'
 
@@ -34,11 +35,14 @@ export async function getJsconfig(dir: string) {
   return await getJSONFile(path.resolve(dir, 'jsconfig.json'), 'jsconfig')
 }
 
-export function patchUpdate(obj: Record<string, any>, key: string, value: any) {
+export function patchUpdate(obj: Record<string, any>, key: string, value: any, deepMerge = true) {
+  const merge = (s: any, ...args: any[]) =>
+    deepMerge ? defu(s, ...args) : Object.assign(s, ...args)
+
   if (Array.isArray(value)) {
     obj[key] = unique([...(obj[key] ?? []), ...value])
   } else if (typeof value === 'object' && value !== null) {
-    obj[key] = { ...(obj[key] ?? {}), ...value }
+    obj[key] = merge(obj[key] ?? {}, value)
   } else {
     obj[key] = value
   }

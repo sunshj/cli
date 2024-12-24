@@ -18,6 +18,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "test": "vitest",
     "start:create": "tsup --silent --onSuccess \"node dist/index.js create example-app\"",
     "start:config": "tsup --silent --onSuccess \"node dist/index.js config\"",
     "start:new": "tsup --silent --onSuccess \"node dist/index.js new example-app\"",
@@ -31,6 +32,7 @@
   "dependencies": {
     "citty": "^0.1.6",
     "consola": "^3.2.3",
+    "defu": "^6.1.4",
     "fast-npm-meta": "^0.2.2",
     "inquirer": "^9.2.17",
     "jsonc-parser": "^3.3.1",
@@ -40,7 +42,7 @@
   "devDependencies": {
     "@sunshj/commitlint-config": "^1.0.0",
     "@sunshj/eslint-config": "2.1.2",
-    "@sunshj/prettier-config": "^1.0.0",
+    "@sunshj/prettier-config": "^1.0.2",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.12.2",
     "bumpp": "^9.4.0",
@@ -52,7 +54,8 @@
     "prettier": "^3.2.5",
     "simple-git-hooks": "^2.11.1",
     "tsup": "^8.0.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.8"
   },
   "config": {
     "commitizen": {
@@ -60,7 +63,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.{js,ts,json,md,yaml}": [
       "eslint --fix",
       "prettier --write"
     ]
