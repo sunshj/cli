@@ -21,6 +21,7 @@ function generateCommitlintConfigCode(type: ModuleType) {
   ctx.push("extends: ['@sunshj/commitlint-config']")
   ctx.deindent()
   ctx.push('}')
+  ctx.newline()
 
   return ctx.code
 }

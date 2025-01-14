@@ -98,12 +98,14 @@ describe('codegen helper', () => {
     ctx.push("extends: ['@sunshj/commitlint-config']")
     ctx.deindent()
     ctx.push('}')
+    ctx.newline()
 
     expect(ctx.code).toMatchInlineSnapshot(`
       "/** @type {import('cz-git').UserConfig} */
       export default {
         extends: ['@sunshj/commitlint-config']
-      }"
+      }
+      "
     `)
   })
 })
