@@ -37,6 +37,7 @@ export async function configureProject(
   })
 
   spinner.succeed(`${configPkg} installed successfully`)
+
   if (configPkg === 'eslint') await configureESLint()
   if (configPkg === 'prettier') await configurePrettier()
   if (configPkg === 'stylelint') await configureStyleLint()

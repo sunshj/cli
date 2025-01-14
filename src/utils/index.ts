@@ -1,38 +1,18 @@
 import { spawn } from 'node:child_process'
-import { existsSync, promises as fs } from 'node:fs'
-import path from 'node:path'
 import process from 'node:process'
-import consola from 'consola'
 import { defu } from 'defu'
 import ora from 'ora'
-import { getJSONFile } from './internals'
+
+export * from './file'
+
+export const spinner = ora('[Downloading]: ')
 
 export function unique<T>(array: T[]) {
   return [...new Set(array)]
 }
 
-export async function ensureReadFile(file: string, defaultContent = '') {
-  const exists = existsSync(file)
-  if (!exists) {
-    await fs.mkdir(path.dirname(file), { recursive: true })
-    await fs.writeFile(file, defaultContent)
-  }
-  const fileContent = await fs.readFile(file, 'utf-8')
-  return fileContent.trim() || defaultContent
-}
-
-export const spinner = ora('[Downloading]: ')
-
-export async function getPkgJSON(dir: string) {
-  return await getJSONFile(path.resolve(dir, 'package.json'), 'pkgJSON')
-}
-
-export async function getVSCodeSettings(dir: string) {
-  return await getJSONFile(path.resolve(dir, '.vscode/settings.json'), 'vscodeSettings')
-}
-
-export async function getJsconfig(dir: string) {
-  return await getJSONFile(path.resolve(dir, 'jsconfig.json'), 'jsconfig')
+export function capitalize<T extends string>(str: T) {
+  return (str?.charAt(0).toUpperCase() + str?.slice(1)) as Capitalize<T>
 }
 
 export function patchUpdate(obj: Record<string, any>, key: string, value: any, deepMerge = true) {
@@ -100,23 +80,31 @@ export function compareVersions(latest: string, current: string) {
   return latest.localeCompare(current, 'en-US', { numeric: true })
 }
 
-export async function deleteGitFolder(projName: string) {
-  const gitFolderPath = path.resolve(process.cwd(), projName, '.git')
-  try {
-    await fs.rm(gitFolderPath, { recursive: true, maxRetries: 3 })
-    consola.success(`Successfully deleted .git folder`)
-  } catch (error: any) {
-    consola.error(`Failed to delete .git folder: ${error.message}`)
-  }
-}
-
-export async function updatePkgName(projName: string) {
-  try {
-    const { pkgJSON, savePkgJSON } = await getPkgJSON(path.resolve(process.cwd(), projName))
-    pkgJSON.name = projName
-    await savePkgJSON()
-    consola.success(`Successfully updated 'name' field in package.json to ${projName}`)
-  } catch (error: any) {
-    consola.error(`Failed to update 'name' field in package.json: ${error.message}`)
+/**
+ * DO NOT DESTRUCTURE RETURN VALUE
+ */
+export function createCodegenContext() {
+  return {
+    code: '',
+    indentLevel: 0,
+    push(code: string) {
+      this.code += code
+    },
+    unshift(code: string) {
+      this.code = code + this.code
+    },
+    newline(n?: number) {
+      this.push(`\n${'  '.repeat(n ?? this.indentLevel)}`)
+    },
+    indent() {
+      this.newline(++this.indentLevel)
+    },
+    deindent(withoutNewline = false) {
+      if (withoutNewline) {
+        --this.indentLevel
+      } else {
+        this.newline(--this.indentLevel)
+      }
+    }
   }
 }

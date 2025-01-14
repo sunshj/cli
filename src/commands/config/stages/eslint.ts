@@ -1,7 +1,16 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
-import type { ModuleType } from '#utils/types'
+import { createCodegenContext, getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils'
+
+function generateESLintConfigCode() {
+  const ctx = createCodegenContext()
+  ctx.push("import { defineConfig } from '@sunshj/eslint-config")
+  ctx.newline()
+  ctx.newline()
+  ctx.push('export default defineConfig({})')
+  ctx.newline()
+  return ctx.code
+}
 
 export async function configureESLint() {
   const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(process.cwd())
@@ -21,17 +30,9 @@ export async function configureESLint() {
   await saveVscodeSettings()
 
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
-  const pkgType: ModuleType = pkgJSON.type ?? 'commonjs'
-  const configFileName = pkgType === 'module' ? 'eslint.config.js' : 'eslint.config.mjs'
+  const configFileName = pkgJSON.type === 'module' ? 'eslint.config.js' : 'eslint.config.mjs'
 
-  await fs.writeFile(
-    configFileName,
-    `import { defineConfig } from '@sunshj/eslint-config'
-    
-  export default defineConfig({})
-    `,
-    'utf-8'
-  )
+  await fs.writeFile(configFileName, generateESLintConfigCode(), 'utf-8')
 
   patchUpdate(pkgJSON, 'scripts', {
     lint: 'eslint . --cache',

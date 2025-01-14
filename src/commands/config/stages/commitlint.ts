@@ -2,7 +2,28 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
-import { execShell, getPkgJSON, patchUpdate } from '#utils'
+import { createCodegenContext, execShell, getPkgJSON, patchUpdate } from '#utils'
+import type { ModuleType } from '#utils/types'
+
+function generateCommitlintConfigCode(type: ModuleType) {
+  const ctx = createCodegenContext()
+
+  ctx.push(`/** @type {import('cz-git').UserConfig} */`)
+  ctx.newline()
+
+  if (type === 'module') {
+    ctx.push(`export default {`)
+  } else {
+    ctx.push(`module.exports = {`)
+  }
+
+  ctx.indent()
+  ctx.push("extends: ['@sunshj/commitlint-config']")
+  ctx.deindent()
+  ctx.push('}')
+
+  return ctx.code
+}
 
 export async function configureCommitLint() {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())
@@ -19,11 +40,8 @@ export async function configureCommitLint() {
 
   await savePkgJSON()
 
-  const commitlintConfig = `/** @type {import('cz-git').UserConfig} */
-${pkgJSON.type === 'module' ? 'export default' : 'module.exports ='} {
-  extends: ['@sunshj/commitlint-config']
-}
-`
+  const commitlintConfig = generateCommitlintConfigCode(pkgJSON.type)
+
   await fs.writeFile(path.resolve(process.cwd(), 'commitlint.config.js'), commitlintConfig)
   const prepare = await execShell('npx', ['simple-git-hooks'])
   if (!prepare) return consola.error('commitlint configuration failed')
