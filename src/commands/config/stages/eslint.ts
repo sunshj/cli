@@ -4,7 +4,7 @@ import { createCodegenContext, getPkgJSON, getVSCodeSettings, patchUpdate } from
 
 function generateESLintConfigCode() {
   const ctx = createCodegenContext()
-  ctx.push("import { defineConfig } from '@sunshj/eslint-config")
+  ctx.push("import { defineConfig } from '@sunshj/eslint-config'")
   ctx.newline()
   ctx.newline()
   ctx.push('export default defineConfig({})')
