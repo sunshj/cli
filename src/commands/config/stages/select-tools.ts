@@ -1,6 +1,6 @@
 import process from 'node:process'
-import inquirer from 'inquirer'
 import { getPkgJSON } from '#utils'
+import inquirer from 'inquirer'
 
 export async function selectTools() {
   return await inquirer.prompt<{ tools: string[] }>([

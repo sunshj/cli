@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@sunshj/commitlint-config": "^1.0.0",
-    "@sunshj/eslint-config": "2.1.2",
+    "@sunshj/eslint-config": "^2.2.0",
     "@sunshj/prettier-config": "^1.0.2",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.12.2",

@@ -1,5 +1,5 @@
-import inquirer from 'inquirer'
 import { repos } from '#constants'
+import inquirer from 'inquirer'
 
 export async function selectTemplate(framework: string) {
   return await inquirer.prompt<{ template: string }>([

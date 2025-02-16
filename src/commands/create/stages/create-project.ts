@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import consola from 'consola'
 import { deleteGitFolder, downloadGithubRepo, spinner, updatePkgName } from '#utils'
+import consola from 'consola'
 
 export async function createProject(projectName: string, rawRepoName: string) {
   const [repoName, branch] = rawRepoName.split('#')

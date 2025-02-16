@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import consola from 'consola'
 import { ensureReadFile } from '#utils'
+import consola from 'consola'
 
 export async function configureGitAttributes() {
   const GIT_ATTRS = '* text=auto eol=lf'

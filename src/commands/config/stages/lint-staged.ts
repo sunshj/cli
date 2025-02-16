@@ -1,6 +1,6 @@
 import process from 'node:process'
-import consola from 'consola'
 import { execShell, getPkgJSON, patchUpdate } from '#utils'
+import consola from 'consola'
 
 export async function configureLintStaged(configurePkgs: string[]) {
   const { pkgJSON, savePkgJSON } = await getPkgJSON(process.cwd())

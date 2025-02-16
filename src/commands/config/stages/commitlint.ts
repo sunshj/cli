@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import consola from 'consola'
 import { createCodegenContext, execShell, getPkgJSON, patchUpdate } from '#utils'
+import consola from 'consola'
 import type { ModuleType } from '#utils/types'
 
 function generateCommitlintConfigCode(type: ModuleType) {

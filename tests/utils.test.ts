@@ -1,6 +1,6 @@
 import process from 'node:process'
-import { describe, expect, it } from 'vitest'
 import { createCodegenContext, getPkgJSON, patchUpdate } from '#utils'
+import { describe, expect, it } from 'vitest'
 
 const { pkgJSON } = await getPkgJSON(process.cwd())
 
