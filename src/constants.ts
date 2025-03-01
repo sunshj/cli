@@ -37,5 +37,5 @@ export const INSTALL_CONFIGS = {
   prettier: ['prettier', '@sunshj/prettier-config@latest'],
   stylelint: ['stylelint@16', '@sunshj/stylelint-config@latest'],
   lintStaged: ['lint-staged@15', 'simple-git-hooks'],
-  commitlint: ['commitlint@18', 'cz-git', 'commitizen', '@commitlint/config-conventional']
+  commitlint: ['commitlint@18', 'cz-git', 'commitizen', '@commitlint/config-conventional@18']
 }

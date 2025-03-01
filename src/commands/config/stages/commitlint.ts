@@ -17,22 +17,23 @@ export function generateCommitlintConfigCode(type: ModuleType) {
   }
 
   ctx.indent()
-  ctx.push(`extends: ["@commitlint/config-conventional"],
-rules: {
-  'subject-leading-space': [2, 'always'],
-  'subject-full-stop': [0, 'never'],
-},
-plugins: [
-  {
-    rules: {
-      'subject-leading-space': (args) => {
-        return [args.header.includes(': '), 'The subject prefix must contain spaces, such as "feat: "']
-      },
-    },
+  ctx.push(`extends: ['@commitlint/config-conventional'],
+  rules: {
+    'subject-leading-space': [2, 'always'],
+    'subject-full-stop': [0, 'never']
   },
-],`)
+  plugins: [
+    {
+      rules: {
+        'subject-leading-space': ({ header }) => {
+          return [header.includes(': '), 'The subject prefix must contain spaces, such as "feat: "']
+        }
+      }
+    }
+  ]`)
   ctx.deindent()
   ctx.push('}')
+  ctx.newline()
 
   return ctx.code
 }

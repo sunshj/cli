@@ -17,6 +17,7 @@
     "access": "public"
   },
   "scripts": {
+    "commit": "git-cz",
     "build": "tsup",
     "test": "vitest",
     "start:create": "tsup --silent --onSuccess \"node dist/index.js create example-app\"",
@@ -26,8 +27,7 @@
     "prepublishOnly": "pnpm build",
     "lint": "eslint . --cache",
     "lint:fix": "eslint . --fix --cache",
-    "format": "prettier . --write",
-    "commit": "git-cz"
+    "format": "prettier . --write"
   },
   "dependencies": {
     "citty": "^0.1.6",
@@ -40,15 +40,15 @@
     "ora": "^8.0.1"
   },
   "devDependencies": {
-    "@sunshj/commitlint-config": "^1.0.0",
+    "@commitlint/config-conventional": "^18.6.3",
     "@sunshj/eslint-config": "^2.2.0",
     "@sunshj/prettier-config": "^1.0.2",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.12.2",
     "bumpp": "^9.4.0",
-    "commitizen": "^4.3.0",
+    "commitizen": "^4.3.1",
     "commitlint": "^18.6.1",
-    "cz-git": "^1.9.1",
+    "cz-git": "^1.11.0",
     "eslint": "^9.10.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
@@ -73,7 +73,7 @@
   },
   "prettier": "@sunshj/prettier-config",
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "commit-msg": "npx --no-install commitlint --config commitlint.config.js --edit $1"
+    "commit-msg": "npx --no-install commitlint --config commitlint.config.js --edit $1",
+    "pre-commit": "npx lint-staged"
   }
 }
