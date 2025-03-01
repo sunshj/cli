@@ -5,12 +5,11 @@ import { createCodegenContext, execShell, getPkgJSON, patchUpdate } from '#utils
 import consola from 'consola'
 import type { ModuleType } from '#utils/types'
 
-function generateCommitlintConfigCode(type: ModuleType) {
+export function generateCommitlintConfigCode(type: ModuleType) {
   const ctx = createCodegenContext()
 
   ctx.push(`/** @type {import('cz-git').UserConfig} */`)
   ctx.newline()
-
   if (type === 'module') {
     ctx.push(`export default {`)
   } else {
@@ -18,10 +17,22 @@ function generateCommitlintConfigCode(type: ModuleType) {
   }
 
   ctx.indent()
-  ctx.push("extends: ['@sunshj/commitlint-config']")
+  ctx.push(`extends: ["@commitlint/config-conventional"],
+rules: {
+  'subject-leading-space': [2, 'always'],
+  'subject-full-stop': [0, 'never'],
+},
+plugins: [
+  {
+    rules: {
+      'subject-leading-space': (args) => {
+        return [args.header.includes(': '), 'The subject prefix must contain spaces, such as "feat: "']
+      },
+    },
+  },
+],`)
   ctx.deindent()
   ctx.push('}')
-  ctx.newline()
 
   return ctx.code
 }

@@ -81,31 +81,4 @@ describe('codegen helper', () => {
       "
     `)
   })
-
-  it('should generate commitlint config', () => {
-    const ctx = createCodegenContext()
-    const type = 'module'
-
-    ctx.push(`/** @type {import('cz-git').UserConfig} */`)
-    ctx.newline()
-    if (type === 'module') {
-      ctx.push(`export default {`)
-    } else {
-      ctx.push(`module.exports = {`)
-    }
-
-    ctx.indent()
-    ctx.push("extends: ['@sunshj/commitlint-config']")
-    ctx.deindent()
-    ctx.push('}')
-    ctx.newline()
-
-    expect(ctx.code).toMatchInlineSnapshot(`
-      "/** @type {import('cz-git').UserConfig} */
-      export default {
-        extends: ['@sunshj/commitlint-config']
-      }
-      "
-    `)
-  })
 })
