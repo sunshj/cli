@@ -6,19 +6,10 @@ npm i sunshj -g
 sun --version
 ```
 
-## 创建预设github模板
+## 创建github预设模板
 
 ```bash
 sun create my-app
-```
-
-## 克隆项目
-
-```bash
-sun get sunshj/vue3-ts-starter
-
-#or
-sun get sunshj/vue3-ts-starter#main my-app
 ```
 
 ## 项目配置
@@ -30,7 +21,7 @@ sun config
 sun config --eslint --prettier --stylelint --lintStaged --commitlint -w
 ```
 
-## 创建Node.js项目
+## 创建CLI内置模版
 
 ```bash
 sun new my-app
