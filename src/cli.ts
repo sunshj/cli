@@ -6,7 +6,6 @@ import { getLatestVersion } from 'fast-npm-meta'
 import { name as pkgName, version as pkgVersion } from '../package.json'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
-import { getRepoCommand } from './commands/get'
 import { newProjectCommand } from './commands/new'
 import { CLI_NAME } from './constants'
 
@@ -28,8 +27,7 @@ export const main = defineCommand({
   subCommands: {
     create: createProjectCommand,
     config: configureProjectCommand,
-    new: newProjectCommand,
-    get: getRepoCommand
+    new: newProjectCommand
   },
 
   run() {
