@@ -14,13 +14,13 @@ export async function installPkgs(ctx: ConfigureContext) {
 
     _tasks.push({
       title: `Installing ${selectedPkg} packages`,
-      async task() {
+      async task(message) {
         await addDevDependency(pkgs, {
           silent: true,
           workspace: ctx.workspace
         })
+        message(`Installed ${pkgs.join(', ')}`)
         await configurePkg(selectedPkg, ctx)
-        return `Installed ${pkgs.join(', ')}`
       }
     })
   }
