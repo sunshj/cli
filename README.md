@@ -19,10 +19,14 @@ sun create
   ```json
   [
     {
-      "name": "ts-starter", // 模板名称
-      "url": "gh:sunshj/ts-starter", // 模板地址，基于 [giget](https://github.com/unjs/giget#examples)
-      "description": "A simple starter template for TypeScript projects.", // 模板描述
-      "category": "Library" // 模板分类
+      // 模板名称
+      "name": "ts-starter",
+      // 模板地址，基于 [giget](https://github.com/unjs/giget#examples)
+      "url": "gh:sunshj/ts-starter",
+      // 模板描述
+      "description": "A simple starter template for TypeScript projects.",
+      // 模板分类
+      "category": "Library"
     }
     // ...
   ]
