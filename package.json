@@ -1,0 +1,82 @@
+{
+  "name": "cli-v2",
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.5.0",
+  "description": "_description_",
+  "type": "module",
+  "keywords": [
+    "pkg-placeholder"
+  ],
+  "license": "MIT",
+  "author": "sunshj",
+  "files": [
+    "dist"
+  ],
+  "imports": {
+    "#*": "./src/*"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:update": "vitest -u",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix --cache",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp && npm publish",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier . --write"
+  },
+  "dependencies": {
+    "@clack/prompts": "0.10.0",
+    "citty": "0.1.6",
+    "consola": "3.4.0",
+    "defu": "6.1.4",
+    "fast-npm-meta": "0.3.1",
+    "jsonc-parser": "3.3.1",
+    "nypm": "0.6.0",
+    "tinyexec": "0.3.2"
+  },
+  "devDependencies": {
+    "@sunshj/eslint-config": "^2.2.0",
+    "@sunshj/prettier-config": "^1.0.2",
+    "@types/node": "^18",
+    "bumpp": "^9.4.1",
+    "eslint": "^9.10.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "tsup": "^8.2.4",
+    "typescript": "5.5.3",
+    "vitest": "^3.0.5"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,md,json,yaml}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "prettier": "@sunshj/prettier-config"
+}
