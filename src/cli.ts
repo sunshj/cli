@@ -4,6 +4,7 @@ import { colors } from 'consola/utils'
 import { getLatestVersion } from 'fast-npm-meta'
 import { name as pkgName, version as pkgVersion } from '../package.json'
 import { configureProjectCommand } from './commands/config'
+import { createProjectCommand } from './commands/create'
 import config from './config'
 import { compareVersions } from './utils'
 
@@ -23,6 +24,7 @@ export const main = defineCommand({
   },
 
   subCommands: {
+    create: createProjectCommand,
     config: configureProjectCommand
   },
 
