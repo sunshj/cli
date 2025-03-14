@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { multiselect } from '@clack/prompts'
 import config from '#config'
 
@@ -29,8 +30,9 @@ export async function selectPkgs() {
       { value: 'commitlint', label: 'Commitlint', hint: getDescription('commitlint') }
     ],
     initialValues: ['eslint', 'prettier']
+  }).catch(() => {
+    process.exit(1)
   })
 
-  if (typeof pkgs === 'symbol') return []
-  return pkgs
+  return pkgs as string[]
 }

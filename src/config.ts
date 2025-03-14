@@ -1,6 +1,6 @@
 export default {
   cliName: 'sun',
-  checkForUpdate: false,
+  checkForUpdate: true,
   localTemplatesFile: '.sunrc.json',
 
   installPkgs: {
