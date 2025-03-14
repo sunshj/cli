@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import process from 'node:process'
 import { confirm } from '@clack/prompts'
 import { getPkgJSON } from '#utils.js'
 import consola from 'consola'
@@ -20,6 +21,8 @@ export async function postClone(ctx: CreationContext) {
     await confirm({
       message: 'Do you want to initialize a git repository?',
       initialValue: true
+    }).catch(() => {
+      process.exit(1)
     })
     await x('git', ['init', ctx.projectPath])
     consola.success('Initialized git repository')
@@ -28,6 +31,8 @@ export async function postClone(ctx: CreationContext) {
   const install = await confirm({
     message: 'Do you want to install dependencies?',
     initialValue: true
+  }).catch(() => {
+    process.exit(1)
   })
 
   if (install === true) {
