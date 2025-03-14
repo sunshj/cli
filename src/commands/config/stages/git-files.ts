@@ -5,6 +5,7 @@ import config from '#config.js'
 import { ensureReadFile } from '#utils'
 import consola from 'consola'
 import type { ConfigureContext } from '..'
+
 async function editGitAttributes() {
   const filePath = path.resolve(process.cwd(), '.gitattributes')
   const fileContent = await ensureReadFile(filePath)

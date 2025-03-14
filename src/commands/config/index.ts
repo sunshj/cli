@@ -2,14 +2,9 @@ import process from 'node:process'
 import { getPkgJSON } from '#utils.js'
 import { defineCommand } from 'citty'
 import { detectPackageManager } from 'nypm'
-import { configureCommitlint } from './stages/commitlint'
-import { configureESLint } from './stages/eslint'
 import { configureGitFiles } from './stages/git-files'
 import { installPkgs } from './stages/install-pkgs'
-import { configureLintStaged } from './stages/lint-staged'
-import { configurePrettier } from './stages/prettier'
 import { selectPkgs } from './stages/select-pkgs'
-import { configureStylelint } from './stages/stylelint'
 
 export interface ConfigureContext {
   selectedPkgs: string[]

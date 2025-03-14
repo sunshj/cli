@@ -1,6 +1,6 @@
 import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
-import defu, { defuArrayFn } from 'defu'
+import defu from 'defu'
 import JSONC from 'jsonc-parser'
 
 export function unique<T>(array: T[]) {

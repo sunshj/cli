@@ -1,5 +1,6 @@
 import { multiselect } from '@clack/prompts'
 import config from '#config'
+
 function getDescription(pkg: keyof typeof config.installPkgs) {
   const pkgInfo = config.installPkgs[pkg]
   return `will install ${pkgInfo.join(', ')}`
