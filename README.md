@@ -1,32 +1,37 @@
-# pkg-placeholder
-
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![bundle][bundle-src]][bundle-href]
-[![JSDocs][jsdocs-src]][jsdocs-href]
-
-Description of pkg-placeholder
-
-## Install
+## 安装
 
 ```bash
-npm install pkg-placeholder
+npm i sunshj -g
+
+sun --version
 ```
 
-## Usage
+## 创建预设模板
 
-```ts
-import {} from 'pkg-placeholder'
+```bash
+sun create
 ```
 
-<!-- Badges -->
+- 配置文件支持JSON/JSONC格式，默认地址：`<homedir>/.sunrc`;
+- 支持远程配置文件，使用 `-r`/`--remote` 参数.
+- 配置文件格式：
 
-[npm-version-src]: https://img.shields.io/npm/v/pkg-placeholder?style=flat&colorA=080f12&colorB=1fa669
-[npm-version-href]: https://npmjs.com/package/pkg-placeholder
-[npm-downloads-src]: https://img.shields.io/npm/dm/pkg-placeholder?style=flat&colorA=080f12&colorB=1fa669
-[npm-downloads-href]: https://npmjs.com/package/pkg-placeholder
-[bundle-src]: https://img.shields.io/bundlephobia/minzip/pkg-placeholder?style=flat&colorA=080f12&colorB=1fa669&label=minzip
-[bundle-href]: https://bundlephobia.com/result?p=pkg-placeholder
-[license-src]: https://img.shields.io/github/license/sunshj/pkg-placeholder.svg?style=flat&colorA=080f12&colorB=1fa669
-[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
-[jsdocs-href]: https://www.jsdocs.io/package/pkg-placeholder
+  ```json
+  [
+    {
+      "name": "ts-starter", // 模板名称
+      "url": "gh:sunshj/ts-starter", // 模板地址，基于 [giget](https://github.com/unjs/giget#examples)
+      "description": "A simple starter template for TypeScript projects.", // 模板描述
+      "category": "Library" // 模板分类
+    }
+    // ...
+  ]
+  ```
+
+## 项目配置
+
+```bash
+sun config
+```
+
+> 在pnpm monorepo中，需要添加`-w`/`--workspace`参数
