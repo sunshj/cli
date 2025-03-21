@@ -23,14 +23,19 @@ export const createProjectCommand = defineCommand({
     description: 'Create a new project'
   },
   args: {
+    projectName: {
+      type: 'positional',
+      required: false
+    },
     remote: {
-      description: 'use Remote templates json',
       type: 'string',
+      description: 'use Remote templates json',
+      required: false,
       alias: 'r'
     }
   },
   async setup({ args }) {
-    const projectName = await enterProjectName()
+    const projectName = await enterProjectName(args.projectName)
     const cwd = process.cwd()
     const pm = await detectPackageManager(cwd)
 
