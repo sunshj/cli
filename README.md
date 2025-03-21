@@ -16,20 +16,22 @@ sun create
 - 支持远程配置文件，使用 `-r`/`--remote` 参数.
 - 配置文件格式：
 
-  ```json
-  [
-    {
-      // 模板名称
-      "name": "ts-starter",
-      // 模板地址，基于 [giget](https://github.com/unjs/giget#examples)
-      "url": "gh:sunshj/ts-starter",
-      // 模板描述
-      "description": "A simple starter template for TypeScript projects.",
-      // 模板分类
-      "category": "Library"
-    }
-    // ...
-  ]
+  ```json [.sunrc]
+  {
+    "templates": [
+      {
+        // 模板名称
+        "name": "ts-starter",
+        // 模板地址，基于 [giget](https://github.com/unjs/giget#examples)
+        "url": "gh:sunshj/ts-starter",
+        // 模板描述
+        "description": "A simple starter template for TypeScript projects.",
+        // 模板分类
+        "category": "Library"
+      }
+      // ...
+    ]
+  }
   ```
 
 ## 项目配置
