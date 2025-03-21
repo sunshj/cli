@@ -3,7 +3,7 @@ import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { confirm } from '@clack/prompts'
 import config from '#config.js'
-import { getPkgJSON, patchUpdate } from '#utils.js'
+import { loadPackageJson, patchUpdate } from '#utils.js'
 import consola from 'consola'
 import { x } from 'tinyexec'
 import type { ConfigureContext } from '..'
@@ -12,7 +12,7 @@ export async function configureCommitlint(ctx: ConfigureContext) {
   if (!ctx.selectedPkgs.includes('commitlint')) return
 
   // add config  to package.json
-  const { pkgJSON, savePkgJSON } = await getPkgJSON(ctx.cwd)
+  const [pkgJSON, savePkgJSON] = await loadPackageJson(ctx.cwd)
   patchUpdate(pkgJSON, 'simple-git-hooks', config.commitlint.gitHooks)
   await savePkgJSON()
 

@@ -3,14 +3,14 @@ import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { confirm } from '@clack/prompts'
 import config from '#config.js'
-import { getPkgJSON, getVSCodeSettings, patchUpdate } from '#utils.js'
+import { loadPackageJson, loadVSCodeSettings, patchUpdate } from '#utils.js'
 import consola from 'consola'
 import type { ConfigureContext } from '..'
 
 export async function configureESLint(ctx: ConfigureContext) {
   if (!ctx.selectedPkgs.includes('eslint')) return
   // add config to vscode settings
-  const { vscodeSettings, saveVscodeSettings } = await getVSCodeSettings(ctx.cwd)
+  const [vscodeSettings, saveVscodeSettings] = await loadVSCodeSettings(ctx.cwd)
 
   patchUpdate(vscodeSettings, 'eslint.validate', [
     'javascript',
@@ -40,7 +40,7 @@ export async function configureESLint(ctx: ConfigureContext) {
   }
 
   // add scripts to package.json
-  const { pkgJSON, savePkgJSON } = await getPkgJSON(ctx.cwd)
+  const [pkgJSON, savePkgJSON] = await loadPackageJson(ctx.cwd)
 
   patchUpdate(pkgJSON, 'scripts', config.eslint.scripts)
 

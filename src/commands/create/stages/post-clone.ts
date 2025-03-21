@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { confirm } from '@clack/prompts'
-import { getPkgJSON } from '#utils.js'
+import { loadPackageJson } from '#utils.js'
 import consola from 'consola'
 import { installDependencies } from 'nypm'
 import { x } from 'tinyexec'
@@ -10,7 +10,7 @@ import type { CreationContext } from '..'
 
 export async function postClone(ctx: CreationContext) {
   // update package.json name field
-  const { pkgJSON, savePkgJSON } = await getPkgJSON(ctx.projectPath)
+  const [pkgJSON, savePkgJSON] = await loadPackageJson(ctx.projectPath)
 
   pkgJSON.name = ctx.projectName
 

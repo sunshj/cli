@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { getPkgJSON } from '#utils.js'
+import { loadPackageJson } from '#utils.js'
 import { defineCommand } from 'citty'
 import { detectPackageManager } from 'nypm'
 import { configureGitFiles } from './stages/git-files'
@@ -33,7 +33,7 @@ export const configureProjectCommand = defineCommand({
     const selectedPkgs = await selectPkgs()
     const cwd = process.cwd()
     const pm = await detectPackageManager(cwd)
-    const { pkgJSON } = await getPkgJSON(cwd)
+    const [pkgJSON] = await loadPackageJson(cwd)
 
     const ctx: ConfigureContext = {
       selectedPkgs,

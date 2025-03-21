@@ -38,48 +38,23 @@ export async function ensureReadFile(file: string, defaultContent = '') {
   return fileContent.trim() || defaultContent
 }
 
-type Whitespace = '\n' | ' '
-
-export type Trim<T> = T extends `${Whitespace}${infer U}`
-  ? Trim<U>
-  : T extends `${infer U}${Whitespace}`
-    ? Trim<U>
-    : T
-
-export type ModuleType = 'module' | 'commonjs'
-
-export function capitalize<T extends string>(str: T) {
-  return (str?.charAt(0).toUpperCase() + str?.slice(1)) as Capitalize<T>
-}
-
-async function loadJSONFile<T extends string = ''>(filepath: string, namespace?: T) {
+async function loadJSON<T extends Record<string, any>>(filepath: string) {
   const fileContent = await ensureReadFile(filepath, '{}')
-  const json: Record<string, any> = JSONC.parse(fileContent)
+  const json: T = JSONC.parse(fileContent)
 
   const save = async (jsonObj?: Record<string, any>) => {
     await fs.writeFile(filepath, JSON.stringify(jsonObj ?? json, null, 2))
   }
 
-  type ResJson = { [K in Trim<T> extends '' ? 'json' : Trim<T>]: typeof json }
-  type ResSave = {
-    [K in Trim<T> extends string ? `save${Capitalize<Trim<T>>}` : 'save']: typeof save
-  }
-  type Result = ResJson & ResSave
-
-  const result = {
-    [namespace?.trim() ? namespace.trim() : 'json']: json,
-    [`save${capitalize(namespace?.trim() ?? '')}`]: save
-  }
-
-  return result as Result
+  return [json, save] as const
 }
 
-export async function getPkgJSON(dir: string) {
-  return await loadJSONFile(path.resolve(dir, 'package.json'), 'pkgJSON')
+export async function loadPackageJson(cwd: string) {
+  return await loadJSON(path.resolve(cwd, 'package.json'))
 }
 
-export async function getVSCodeSettings(dir: string) {
-  return await loadJSONFile(path.resolve(dir, '.vscode/settings.json'), 'vscodeSettings')
+export async function loadVSCodeSettings(cwd: string) {
+  return await loadJSON(path.resolve(cwd, '.vscode/settings.json'))
 }
 
 export function extractZodError(error: ZodError) {

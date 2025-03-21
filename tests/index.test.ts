@@ -1,4 +1,5 @@
-import { patchUpdate } from '#utils.js'
+import process from 'node:process'
+import { loadPackageJson, patchUpdate } from '#utils.js'
 import { describe, expect, it } from 'vitest'
 
 describe('patchUpdate', () => {
@@ -20,5 +21,17 @@ describe('patchUpdate', () => {
         },
       }
     `)
+  })
+})
+
+describe('loadPackageJson', () => {
+  it('should work', async () => {
+    const [pkgJson] = await loadPackageJson(process.cwd())
+    expect(pkgJson.name).toMatchInlineSnapshot(`"sunshj"`)
+    pkgJson.name = 'test-name'
+    expect(pkgJson.name).toMatchInlineSnapshot(`"test-name"`)
+
+    patchUpdate(pkgJson, 'author', 'test-author')
+    expect(pkgJson.author).toMatchInlineSnapshot(`"test-author"`)
   })
 })
