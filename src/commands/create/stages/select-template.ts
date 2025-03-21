@@ -20,7 +20,8 @@ export async function selectTemplates(ctx: CreationContext) {
     message: 'Select a template',
     options: filteredTemplates.map(t => ({
       label: t.name,
-      value: t.url
+      value: t.url,
+      hint: t.description
     }))
   })
 
