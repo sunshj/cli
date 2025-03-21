@@ -18,14 +18,16 @@ export async function postClone(ctx: CreationContext) {
 
   // initial git commit
   if (!existsSync(path.join(ctx.projectPath, '.git'))) {
-    await confirm({
+    const initGit = await confirm({
       message: 'Do you want to initialize a git repository?',
       initialValue: true
     }).catch(() => {
       process.exit(1)
     })
-    await x('git', ['init', ctx.projectPath])
-    consola.success('Initialized git repository')
+    if (initGit === true) {
+      await x('git', ['init', ctx.projectPath])
+      consola.success('Initialized git repository')
+    }
   }
 
   const install = await confirm({
