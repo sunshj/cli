@@ -2,6 +2,7 @@ import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
 import defu from 'defu'
 import JSONC from 'jsonc-parser'
+import type { ZodError } from 'zod'
 
 export function unique<T>(array: T[]) {
   return [...new Set(array)]
@@ -79,4 +80,8 @@ export async function getPkgJSON(dir: string) {
 
 export async function getVSCodeSettings(dir: string) {
   return await loadJSONFile(path.resolve(dir, '.vscode/settings.json'), 'vscodeSettings')
+}
+
+export function extractZodError(error: ZodError) {
+  return error.errors.map(err => err.message).join(', ')
 }

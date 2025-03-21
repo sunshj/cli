@@ -1,10 +1,10 @@
 import { select } from '@clack/prompts'
 import { unique } from '#utils.js'
 import type { CreationContext } from '..'
-import { loadTemplates } from './load-templates'
+import { loadConfig } from './load-config'
 
-export async function selectTemplate(ctx: CreationContext) {
-  const templates = await loadTemplates(ctx)
+export async function selectTemplates(ctx: CreationContext) {
+  const { templates } = await loadConfig(ctx)
   const categories = unique(templates.map(({ category }) => category))
 
   const category = await select({

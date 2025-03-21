@@ -6,15 +6,15 @@ import { detectPackageManager } from 'nypm'
 import { cloneRepo } from './stages/clone-repo'
 import { enterProjectName } from './stages/enter-name'
 import { postClone } from './stages/post-clone'
-import { selectTemplate } from './stages/select-template'
+import { selectTemplates } from './stages/select-template'
 
 export interface CreationContext {
   projectName: string
   projectPath: string
   cwd: string
   pm: string
-  localFile: string
-  remoteFile: string
+  localConfigFile: string
+  remoteConfigFile: string
 }
 
 export const createProjectCommand = defineCommand({
@@ -29,7 +29,7 @@ export const createProjectCommand = defineCommand({
     },
     remote: {
       type: 'string',
-      description: 'use Remote templates json',
+      description: 'use Remote config',
       required: false,
       alias: 'r'
     }
@@ -44,11 +44,11 @@ export const createProjectCommand = defineCommand({
       cwd,
       pm: pm?.name || 'npm',
       projectPath: path.join(cwd, projectName),
-      localFile: config.localTemplatesFile,
-      remoteFile: args.remote
+      localConfigFile: config.localConfigFile,
+      remoteConfigFile: args.remote
     }
 
-    const templateRepoUrl = await selectTemplate(ctx)
+    const templateRepoUrl = await selectTemplates(ctx)
     if (!templateRepoUrl) return
     await cloneRepo(ctx, templateRepoUrl)
     await postClone(ctx)

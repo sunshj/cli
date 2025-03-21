@@ -18,7 +18,7 @@ async function checkForUpdate() {
 
 export const main = defineCommand({
   meta: {
-    name: config.cliName,
+    name: 'sun',
     description: 'CLI tool for simplifying project creation and configuration',
     version: pkgVersion
   },
@@ -31,7 +31,7 @@ export const main = defineCommand({
   run() {
     if (config.checkForUpdate) checkForUpdate()
     consola.box(
-      colors.bgBlue(`${config.cliName}-cli v${pkgVersion}`),
+      colors.bgBlue(`${config.cliName} v${pkgVersion}`),
       `\nCLI tool for simplifying project creation and configuration`
     )
   }

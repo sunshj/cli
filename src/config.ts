@@ -1,7 +1,7 @@
 export default {
-  cliName: 'sun',
+  cliName: 'sun-cli',
   checkForUpdate: true,
-  localTemplatesFile: '.sunrc',
+  localConfigFile: '.sunrc',
 
   installPkgs: {
     eslint: ['eslint@9.10.0', '@sunshj/eslint-config@latest'],
