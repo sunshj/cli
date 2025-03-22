@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "18",
-    "@sunshj/eslint-config": "^2.2.1",
+    "@sunshj/eslint-config": "^2.2.2",
     "@sunshj/prettier-config": "^1.0.2",
     "@types/node": "^18",
     "bumpp": "^9.4.1",
@@ -59,15 +59,15 @@
     "typescript": "5.5.3",
     "vitest": "^3.0.5"
   },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "commit-msg": "npx --no-install commitlint --config commitlint.config.js --edit $1"
-  },
   "pnpm": {
     "overrides": {
       "is-core-module": "npm:@nolyfill/is-core-module@^1",
       "safe-buffer": "npm:@nolyfill/safe-buffer@^1"
     }
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx --no-install commitlint --config commitlint.config.js --edit $1"
   },
   "lint-staged": {
     "*.{js,ts,md,json,yaml}": [
