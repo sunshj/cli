@@ -12,18 +12,7 @@ export async function configureESLint(ctx: ConfigureContext) {
   // add config to vscode settings
   const [vscodeSettings, saveVscodeSettings] = await loadVSCodeSettings(ctx.cwd)
 
-  patchUpdate(vscodeSettings, 'eslint.validate', [
-    'javascript',
-    'javascriptreact',
-    'typescript',
-    'typescriptreact',
-    'vue',
-    'html',
-    'markdown',
-    'json',
-    'jsonc',
-    'yaml'
-  ])
+  patchUpdate(vscodeSettings, 'eslint.validate', config.eslint.languages)
 
   await saveVscodeSettings()
 

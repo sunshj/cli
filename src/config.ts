@@ -17,6 +17,18 @@ export default {
 
 export default defineConfig({})
 `,
+    languages: [
+      'javascript',
+      'javascriptreact',
+      'typescript',
+      'typescriptreact',
+      'vue',
+      'html',
+      'markdown',
+      'json',
+      'jsonc',
+      'yaml'
+    ],
     scripts: {
       lint: 'eslint . --cache',
       'lint:fix': 'eslint . --fix --cache'
@@ -25,6 +37,17 @@ export default defineConfig({})
 
   prettier: {
     extendConfig: '@sunshj/prettier-config',
+    languages: [
+      'html',
+      'css',
+      'javascript',
+      'typescript',
+      'json',
+      'jsonc',
+      'vue',
+      'javascriptreact',
+      'typescriptreact'
+    ],
     scripts: {
       format: 'prettier . --write'
     }
