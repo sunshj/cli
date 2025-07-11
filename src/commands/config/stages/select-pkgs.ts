@@ -34,5 +34,7 @@ export async function selectPkgs() {
     process.exit(1)
   })
 
+  if (typeof pkgs === 'symbol') return []
+
   return pkgs as string[]
 }

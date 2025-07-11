@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { loadPackageJson, patchUpdate } from '#utils.js'
+import { loadPackageJson, patchUpdate } from '#utils'
 import { describe, expect, it } from 'vitest'
 
 describe('patchUpdate', () => {

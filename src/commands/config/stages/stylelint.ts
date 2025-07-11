@@ -1,5 +1,5 @@
-import config from '#config.js'
-import { loadPackageJson, loadVSCodeSettings, patchUpdate } from '#utils.js'
+import config from '#config'
+import { loadPackageJson, loadVSCodeSettings, patchUpdate } from '#utils'
 import type { ConfigureContext } from '..'
 
 export async function configureStylelint(ctx: ConfigureContext) {

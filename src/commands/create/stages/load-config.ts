@@ -1,7 +1,7 @@
 import { homedir } from 'node:os'
 import path from 'node:path'
 import process from 'node:process'
-import { ensureReadFile, extractZodError } from '#utils.js'
+import { ensureReadFile, extractZodError } from '#utils'
 import consola from 'consola'
 import JSONC from 'jsonc-parser'
 import { ofetch } from 'ofetch'

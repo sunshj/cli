@@ -1,5 +1,5 @@
-import config from '#config.js'
-import { loadPackageJson, patchUpdate } from '#utils.js'
+import config from '#config'
+import { loadPackageJson, patchUpdate } from '#utils'
 import consola from 'consola'
 import { x } from 'tinyexec'
 import type { ConfigureContext } from '..'

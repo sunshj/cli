@@ -1,6 +1,6 @@
 import path from 'node:path'
 import process from 'node:process'
-import config from '#config.js'
+import config from '#config'
 import { defineCommand } from 'citty'
 import { detectPackageManager } from 'nypm'
 import { cloneRepo } from './stages/clone-repo'

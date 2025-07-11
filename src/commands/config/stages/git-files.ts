@@ -1,7 +1,7 @@
 import { appendFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import config from '#config.js'
+import config from '#config'
 import { ensureReadFile } from '#utils'
 import consola from 'consola'
 import type { ConfigureContext } from '..'

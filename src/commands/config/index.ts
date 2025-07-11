@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { loadPackageJson } from '#utils.js'
+import { loadPackageJson } from '#utils'
 import { defineCommand } from 'citty'
 import { detectPackageManager } from 'nypm'
 import { configureGitFiles } from './stages/git-files'

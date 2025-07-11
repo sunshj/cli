@@ -1,5 +1,5 @@
 import { tasks, type Task } from '@clack/prompts'
-import config from '#config.js'
+import config from '#config'
 import { addDevDependency } from 'nypm'
 import type { ConfigureContext } from '..'
 import { configurePkg } from './configure'

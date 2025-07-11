@@ -1,5 +1,5 @@
 import { select } from '@clack/prompts'
-import { unique } from '#utils.js'
+import { unique } from '#utils'
 import type { CreationContext } from '..'
 import { loadConfig } from './load-config'
 
