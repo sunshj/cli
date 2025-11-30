@@ -3,6 +3,7 @@ import consola from 'consola'
 import { colors } from 'consola/utils'
 import { getLatestVersion } from 'fast-npm-meta'
 import { name as pkgName, version as pkgVersion } from '../package.json'
+import { cloneProjectCommand } from './commands/clone'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
 import config from './config'
@@ -25,7 +26,8 @@ export const main = defineCommand({
 
   subCommands: {
     create: createProjectCommand,
-    config: configureProjectCommand
+    config: configureProjectCommand,
+    clone: cloneProjectCommand
   },
 
   run() {

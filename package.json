@@ -20,8 +20,8 @@
     "#*": "./src/*"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "test": "vitest",
     "test:update": "vitest -u",
     "lint": "eslint . --cache",
@@ -55,7 +55,7 @@
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.1",
     "simple-git-hooks": "^2.11.1",
-    "tsup": "^8.2.4",
+    "tsdown": "^0.13.0",
     "typescript": "5.5.3",
     "vitest": "^3.0.5"
   },
