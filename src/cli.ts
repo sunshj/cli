@@ -6,12 +6,17 @@ import { name as pkgName, version as pkgVersion } from '../package.json'
 import { cloneProjectCommand } from './commands/clone'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
+import { killProcessCommand } from './commands/kill'
 import config from './config'
 import { compareVersions } from './utils'
 
 async function checkForUpdate() {
-  const { version } = await getLatestVersion(`${pkgName}@latest`)
-  const comparison = compareVersions(version!, pkgVersion)
+  const { version } = await getLatestVersion(`${pkgName}@latest`).catch(() => {
+    consola.error('Failed to check for updates')
+    return { version: null }
+  })
+  if (!version) return
+  const comparison = compareVersions(version, pkgVersion)
   if (comparison === 1) {
     consola.warn(colors.yellow(`New version is available: v${version}`))
   }
@@ -27,7 +32,8 @@ export const main = defineCommand({
   subCommands: {
     create: createProjectCommand,
     config: configureProjectCommand,
-    clone: cloneProjectCommand
+    clone: cloneProjectCommand,
+    kill: killProcessCommand
   },
 
   run() {
