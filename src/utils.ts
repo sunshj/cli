@@ -1,7 +1,9 @@
 import { existsSync, promises as fs } from 'node:fs'
+import { homedir } from 'node:os'
 import path from 'node:path'
 import defu from 'defu'
 import JSONC from 'jsonc-parser'
+import defaultConfig from './config'
 import type { ZodError } from 'zod'
 
 export function unique<T>(array: T[]) {
@@ -59,4 +61,11 @@ export async function loadVSCodeSettings(cwd: string) {
 
 export function extractZodError(error: ZodError) {
   return error.errors.map(err => err.message).join(', ')
+}
+
+export async function loadLocalConfig() {
+  const localFilePath = path.join(homedir(), defaultConfig.localConfigFile)
+  const rawContent = await ensureReadFile(localFilePath, JSON.stringify({ config: {} }))
+  const data = JSONC.parse(rawContent)
+  return defu(data.config, defaultConfig) as Omit<typeof defaultConfig, 'localConfigFile'>
 }

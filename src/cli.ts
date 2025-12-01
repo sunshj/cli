@@ -7,8 +7,7 @@ import { cloneProjectCommand } from './commands/clone'
 import { configureProjectCommand } from './commands/config'
 import { createProjectCommand } from './commands/create'
 import { killProcessCommand } from './commands/kill'
-import config from './config'
-import { compareVersions } from './utils'
+import { compareVersions, loadLocalConfig } from './utils'
 
 async function checkForUpdate() {
   const { version } = await getLatestVersion(`${pkgName}@latest`).catch(() => {
@@ -36,7 +35,8 @@ export const main = defineCommand({
     kill: killProcessCommand
   },
 
-  run() {
+  async run() {
+    const config = await loadLocalConfig()
     if (config.checkForUpdate) checkForUpdate()
     consola.box(
       colors.bgBlue(`${config.cliName} v${pkgVersion}`),
